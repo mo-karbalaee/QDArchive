@@ -1,0 +1,53 @@
+# --- Python Clutter ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# --- Virtual Environments (Essential!) ---
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+
+# --- Environment Secrets (Critical for Security) ---
+.env
+.flaskenv
+*.secret
+credentials.json
+
+# --- Data Engineering Specifics ---
+# We track the code, but NOT the actual data files
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Ignore local SQLite databases
+*.db
+*.sqlite3
+
+# --- IDE & System Clutter ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
