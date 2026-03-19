@@ -16,10 +16,10 @@ def main():
     )
 
     # 3. Initialize high-level service (Logic)
-    ingestor = DataverseIngestor(db, api, data_root="data")
+    ingestor = DataverseIngestor(db, api)
 
     # 4. Run the process
-    ingestor.start(query="Interview transcript", limit=10)
+    ingestor.start(query="FAU", limit=10)
 
 if __name__ == "__main__":
     main()
