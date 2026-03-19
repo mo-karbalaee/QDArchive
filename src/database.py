@@ -32,12 +32,12 @@ class DatabaseManager:
                     query_string TEXT,
                     repository_id INTEGER,
                     repository_url TEXT,
-                    project_url TEXT,
+                    project_url TEXT UNIQUE, 
                     version TEXT,
                     title TEXT,
                     description TEXT,
                     language TEXT,
-                    doi TEXT UNIQUE,
+                    doi TEXT,              
                     upload_date DATE,
                     download_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     download_repository_folder TEXT,
@@ -89,10 +89,10 @@ class DatabaseManager:
                 )
             ''')
 
-    def project_exists(self, doi):
-        """Checks if a DOI (URL format) already exists in the database."""
+    def project_exists(self, project_url):
+        """Checks if a Project URL already exists in the database."""
         with self._get_cursor() as cursor:
-            cursor.execute('SELECT id FROM PROJECTS WHERE doi = ?', (doi,))
+            cursor.execute('SELECT id FROM PROJECTS WHERE project_url = ?', (project_url,))
             return cursor.fetchone() is not None
 
     def insert_project_data(self, project_info, files=None, keywords=None, people=None, licenses=None):

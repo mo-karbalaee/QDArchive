@@ -47,4 +47,4 @@ def run_ingestion(query, limit=5):
 
 if __name__ == "__main__":
     # You can change the query and limit here
-    run_ingestion("climate change", limit=10)
+    run_ingestion("qualitative research", limit=10)
