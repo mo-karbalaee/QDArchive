@@ -26,3 +26,8 @@ uv sync
 ```shell
 uv run src/main.py 
 ```
+
+
+
+[SQlite Visulizer](https://sqlitebrowser.org/dl/)
+
