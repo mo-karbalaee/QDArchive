@@ -59,6 +59,7 @@ class HarvardDataverse:
         # 5. Format Files
         files = []
         for f in version_data.get('files', []):
+            print(f)
             label = f.get('label', 'unknown')
             files.append({
                 "name": label,
