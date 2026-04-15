@@ -38,7 +38,7 @@ def main():
 
     # 5. Run the process
     # Note: IHSN might return different results for 'qualitative' than Harvard
-    ingestor.start(query="pdf file", limit=10)
+    ingestor.start(query="interview", limit=10)
 
 if __name__ == "__main__":
     main()
