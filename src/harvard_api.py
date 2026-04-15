@@ -19,6 +19,22 @@ class HarvardDataverse:
         response.raise_for_status()
         return response.json().get('data', {}).get('latestVersion', {})
 
+    def download_file(self, file_id, save_path):
+        """
+        Downloads the actual bytes of a file from Dataverse.
+        This matches the logic in your successful test script.
+        """
+        url = f"{self.base_url}/api/access/datafile/{file_id}"
+        response = requests.get(url, headers=self.headers, stream=True)
+        
+        # This will catch 401/403 errors just like your test script
+        response.raise_for_status() 
+        
+        with open(save_path, 'wb') as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                if chunk:
+                    f.write(chunk)
+
     def parse_metadata(self, search_item, version_data, query_string):
         """Maps Dataverse JSON to your SQLite Schema format."""
         
@@ -56,12 +72,15 @@ class HarvardDataverse:
         author_entries = get_val("author", multiple=True)
         people = [{"name": a.get('authorName', {}).get('value'), "role": "Author"} for a in author_entries]
 
-        # 5. Format Files
+        # 5. Format Files (FIXED: Now includes 'id')
         files = []
         for f in version_data.get('files', []):
-            print(f)
             label = f.get('label', 'unknown')
+            # We need dataFile.id for the download URL
+            f_id = f.get('dataFile', {}).get('id') 
+            
             files.append({
+                "id": f_id,
                 "name": label,
                 "type": label.split('.')[-1] if '.' in label else 'unknown'
             })

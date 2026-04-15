@@ -19,7 +19,7 @@ def main():
     ingestor = DataverseIngestor(db, api)
 
     # 4. Run the process
-    ingestor.start(query="FAU", limit=10)
+    ingestor.start(query="qualitative research", limit=10)
 
 if __name__ == "__main__":
     main()
