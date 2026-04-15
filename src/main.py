@@ -9,9 +9,7 @@ def main():
     # 1. Load configuration
     load_dotenv()
     
-    # 2. Initialize Database
-    db_path = os.getenv("DB_PATH", "metadata.db")
-    db = DatabaseManager(db_path)
+    db = DatabaseManager()
     
     # 3. Choose your Repository Strategy
     # You can change this to "harvard" or "ihsn"
@@ -38,7 +36,7 @@ def main():
 
     # 5. Run the process
     # Note: IHSN might return different results for 'qualitative' than Harvard
-    ingestor.start(query="qualitative analysis", limit=3)
+    ingestor.start(query="qualitative research", limit=3)
 
 if __name__ == "__main__":
     main()

@@ -2,7 +2,7 @@ import sqlite3
 from contextlib import contextmanager
 
 class DatabaseManager:
-    def __init__(self, db_path="metadata.db"):
+    def __init__(self, db_path="23688981-seeding.db"):
         self.db_path = db_path
         self._init_db()
 
