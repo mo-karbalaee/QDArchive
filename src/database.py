@@ -10,7 +10,6 @@ class DatabaseManager:
     def _get_cursor(self):
         """Context manager to handle connection and transactions automatically."""
         conn = sqlite3.connect(self.db_path)
-        # Enable foreign key support in SQLite
         conn.execute("PRAGMA foreign_keys = ON")
         cursor = conn.cursor()
         try:
@@ -23,27 +22,27 @@ class DatabaseManager:
             conn.close()
 
     def _init_db(self):
-        """Initializes the database schema based on the provided specification."""
+        """Initializes the database schema with mandatory field constraints."""
         with self._get_cursor() as cursor:
             # 1. PROJECTS Table
             cursor.execute('''
                 CREATE TABLE IF NOT EXISTS PROJECTS (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     query_string TEXT,
-                    repository_id INTEGER,
-                    repository_url TEXT,
-                    project_url TEXT UNIQUE, 
+                    repository_id INTEGER NOT NULL,
+                    repository_url TEXT NOT NULL,
+                    project_url TEXT UNIQUE NOT NULL, 
                     version TEXT,
-                    title TEXT,
-                    description TEXT,
+                    title TEXT NOT NULL,
+                    description TEXT NOT NULL,
                     language TEXT,
                     doi TEXT,              
                     upload_date DATE,
-                    download_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                    download_repository_folder TEXT,
-                    download_project_folder TEXT,
+                    download_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    download_repository_folder TEXT NOT NULL,
+                    download_project_folder TEXT NOT NULL,
                     download_version_folder TEXT,
-                    download_method TEXT
+                    download_method TEXT NOT NULL
                 )
             ''')
 
@@ -51,9 +50,10 @@ class DatabaseManager:
             cursor.execute('''
                 CREATE TABLE IF NOT EXISTS FILES (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    project_id INTEGER,
-                    file_name TEXT,
-                    file_type TEXT,
+                    project_id INTEGER NOT NULL,
+                    file_name TEXT NOT NULL,
+                    file_type TEXT NOT NULL,
+                    status TEXT NOT NULL,
                     FOREIGN KEY (project_id) REFERENCES PROJECTS (id) ON DELETE CASCADE
                 )
             ''')
@@ -62,8 +62,8 @@ class DatabaseManager:
             cursor.execute('''
                 CREATE TABLE IF NOT EXISTS KEYWORDS (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    project_id INTEGER,
-                    keyword TEXT,
+                    project_id INTEGER NOT NULL,
+                    keyword TEXT NOT NULL,
                     FOREIGN KEY (project_id) REFERENCES PROJECTS (id) ON DELETE CASCADE
                 )
             ''')
@@ -72,9 +72,9 @@ class DatabaseManager:
             cursor.execute('''
                 CREATE TABLE IF NOT EXISTS PERSON_ROLE (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    project_id INTEGER,
-                    name TEXT,
-                    role TEXT,
+                    project_id INTEGER NOT NULL,
+                    name TEXT NOT NULL,
+                    role TEXT NOT NULL,
                     FOREIGN KEY (project_id) REFERENCES PROJECTS (id) ON DELETE CASCADE
                 )
             ''')
@@ -83,27 +83,22 @@ class DatabaseManager:
             cursor.execute('''
                 CREATE TABLE IF NOT EXISTS LICENSES (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    project_id INTEGER,
-                    license TEXT,
+                    project_id INTEGER NOT NULL,
+                    license TEXT NOT NULL,
                     FOREIGN KEY (project_id) REFERENCES PROJECTS (id) ON DELETE CASCADE
                 )
             ''')
 
     def project_exists(self, project_url):
-        """Checks if a Project URL already exists in the database."""
+        """Checks if a Project URL already exists."""
         with self._get_cursor() as cursor:
             cursor.execute('SELECT id FROM PROJECTS WHERE project_url = ?', (project_url,))
             return cursor.fetchone() is not None
 
     def insert_project_data(self, project_info, files=None, keywords=None, people=None, licenses=None):
         """
-        Inserts a full project record and all related metadata in a single transaction.
-        
-        :param project_info: dict containing keys matching PROJECTS columns
-        :param files: list of dicts [{'name': ..., 'type': ...}]
-        :param keywords: list of strings
-        :param people: list of dicts [{'name': ..., 'role': ...}]
-        :param licenses: list of strings
+        Inserts a project record and all related metadata.
+        Required fields must be present in project_info to avoid NOT NULL constraints.
         """
         files = files or []
         keywords = keywords or []
@@ -121,7 +116,7 @@ class DatabaseManager:
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
                 project_info.get('query_string'),
-                project_info.get('repository_id', 1), # Default to 1 for Harvard
+                project_info.get('repository_id'),
                 project_info.get('repository_url'),
                 project_info.get('project_url'),
                 project_info.get('version'),
@@ -133,16 +128,16 @@ class DatabaseManager:
                 project_info.get('download_repository_folder'),
                 project_info.get('download_project_folder'),
                 project_info.get('download_version_folder'),
-                project_info.get('download_method', 'API-CALL')
+                project_info.get('download_method')
             ))
             
             project_id = cursor.lastrowid
 
-            # Insert Files
+            # Insert Files (includes mandatory status)
             if files:
                 cursor.executemany(
-                    'INSERT INTO FILES (project_id, file_name, file_type) VALUES (?, ?, ?)',
-                    [(project_id, f['name'], f['type']) for f in files]
+                    'INSERT INTO FILES (project_id, file_name, file_type, status) VALUES (?, ?, ?, ?)',
+                    [(project_id, f['name'], f['type'], f.get('status', 'SUCCEEDED')) for f in files]
                 )
 
             # Insert Keywords

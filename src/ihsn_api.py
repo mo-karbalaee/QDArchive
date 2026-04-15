@@ -76,25 +76,31 @@ class IhsnApi:
             pass
 
     def parse_metadata(self, search_item, raw_data, query_string):
+        """Maps NADA JSON to the SQLite Schema format with repository_id 8."""
         dataset_data = raw_data.get('dataset', {})
         idno = search_item.get("idno")
         internal_id = search_item.get("id") or dataset_data.get("id")
         
         metadata = dataset_data.get('metadata', {})
-        citation = metadata.get('survey_description', {}).get('citation', {}) or metadata.get('citation', {})
+        # NADA stores citation info deep in the survey_description
+        survey_desc = metadata.get('survey_description', {})
+        citation = survey_desc.get('citation', {}) if isinstance(survey_desc, dict) else metadata.get('citation', {})
 
         project_info = {
             "query_string": query_string,
+            "repository_id": 9,  
             "repository_url": self.site_base,
             "project_url": f"{self.site_base}/catalog/{internal_id}",
             "version": citation.get('version', '1.0') if isinstance(citation, dict) else '1.0',
             "title": search_item.get("title") or "Unknown Title",
             "description": search_item.get("abstract") or "No description provided.",
-            "language": "en",
+            "language": search_item.get("nation", "en"), 
+            "doi": citation.get('doi') if isinstance(citation, dict) else None,
+            "upload_date": search_item.get("changed", "").split(" ")[0], # Get date part of timestamp
             "download_repository_folder": "ihsn",
             "download_project_folder": str(idno).replace("/", "_") if idno else str(internal_id),
             "download_version_folder": "v1",
-            "download_method": "WEB-SCRAPE"
+            "download_method": "API-CALL"
         }
 
         files = []
@@ -107,7 +113,11 @@ class IhsnApi:
             files.append({
                 "id": f['download_url'],
                 "name": clean_name,
-                "type": clean_name.split('.')[-1].lower()
+                "type": clean_name.split('.')[-1].lower(),
+                "status": "SUCCEEDED" # Required by schema
             })
 
-        return project_info, files, [], [], []
+        # Try to extract keywords from tags
+        keywords = [tag.get('tag') for tag in dataset_data.get('tags', []) if isinstance(tag, dict)]
+
+        return project_info, files, keywords, [], []

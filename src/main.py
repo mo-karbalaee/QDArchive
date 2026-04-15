@@ -13,7 +13,7 @@ def main():
     
     # 3. Choose your Repository Strategy
     # You can change this to "harvard" or "ihsn"
-    target_repo = "harvard" 
+    target_repo = "ihsn" 
 
     if target_repo == "harvard":
         print("🏛️  Targeting: Harvard Dataverse")
