@@ -15,7 +15,7 @@ def main():
     
     # 3. Choose your Repository Strategy
     # You can change this to "harvard" or "ihsn"
-    target_repo = "ihsn" 
+    target_repo = "harvard" 
 
     if target_repo == "harvard":
         print("🏛️  Targeting: Harvard Dataverse")
@@ -38,7 +38,7 @@ def main():
 
     # 5. Run the process
     # Note: IHSN might return different results for 'qualitative' than Harvard
-    ingestor.start(query="qualitative analysis", limit=10)
+    ingestor.start(query="qualitative analysis", limit=3)
 
 if __name__ == "__main__":
     main()

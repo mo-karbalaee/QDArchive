@@ -8,15 +8,21 @@ class UniversalIngestor:
         self.data_root = Path(data_root)
 
     def start(self, query, limit=5):
+        # Initial Query Log
+        print(f"🔍 Searching for: '{query}' (limit: {limit})")
         items = self.api.search_datasets(query, limit)
+        total_found = len(items)
+        print(f"📊 Found {total_found} projects to process.\n")
         
-        for item in items:
+        for index, item in enumerate(items, 1):
             lookup_id = item.get("idno") or item.get("global_id")
+            progress = f"[{index}/{total_found}]"
             
-            # Check DB by ID to avoid unique constraint crashes
             if self.db.project_exists(lookup_id):
-                print(f"⏩ Skipping: {lookup_id}")
+                print(f"{progress} ⏩ Already indexed: {lookup_id}")
                 continue
+
+            print(f"{progress} 🚀 Processing: {lookup_id}")
 
             try:
                 raw_data = self.api.get_full_metadata(lookup_id)
@@ -24,15 +30,13 @@ class UniversalIngestor:
                     item, raw_data, query
                 )
 
-                if not files:
-                    print(f"➖ Dataset {lookup_id} has 0 files. Skipping folder creation.")
-                else:
-                    # ONLY CREATE FOLDER IF THERE ARE FILES
+                download_count = 0
+                
+                if files:
                     storage_path = self.data_root / project_info['download_repository_folder'] / \
                                    project_info['download_project_folder'] / \
                                    project_info['download_version_folder']
                     
-                    print(f"📦 Dataset: {project_info['title']} ({len(files)} files)")
                     storage_path.mkdir(parents=True, exist_ok=True)
 
                     for f in files:
@@ -41,15 +45,15 @@ class UniversalIngestor:
                         
                         try:
                             self.api.download_file(f['id'], file_save_path)
-                            print(f"  └─ ✅ Downloaded: {clean_name}")
-                        except Exception as e:
-                            print(f"  └─ ❌ Failed {clean_name}: {e}")
+                            download_count += 1
+                        except Exception:
+                            pass
 
-                # Save to DB regardless so we don't keep hitting the API for empty projects
                 self.db.insert_project_data(project_info, files, keywords, people, licenses)
+                print(f"      ✅ Success: {download_count} files saved.")
 
             except Exception as e:
                 if "UNIQUE constraint" in str(e):
-                    print(f"⏩ Already indexed: {lookup_id}")
+                    print(f"      ⏩ Skipping: {lookup_id} (Unique Constraint)")
                 else:
-                    print(f"❌ Error: {e}")
+                    print(f"      ❌ Failed: {lookup_id} - Error: {e}")
