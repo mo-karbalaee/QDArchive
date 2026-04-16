@@ -1,6 +1,7 @@
 import requests
 from datetime import datetime
 from models.person_role import PersonRole 
+import re
 
 class IhsnApi:
     def __init__(self, base_url, api_key):
@@ -93,7 +94,8 @@ class IhsnApi:
         # Version & DOI
         version_val = doc_desc.get('version_statement', {}).get('version')
         cit_req = dataset_use.get('cit_req', "")
-        doi_val = cit_req.split("DOI: ")[-1].strip() if "DOI: " in cit_req else None
+        match = re.search(r"https://doi\.org/\S+", cit_req)
+        doi_url = match.group(0) if match else None
 
         project_info = {
             "query_string": query_string,
@@ -104,7 +106,7 @@ class IhsnApi:
             "title": title_stmt.get('title'),
             "description": study_info.get('abstract'),
             "language": None,
-            "doi": doi_val,
+            "doi": doi_url,
             "upload_date": doc_desc.get('prod_date'),
             "download_repository_folder": "ihsn",
             "download_project_folder": str(idno or internal_id).replace("/", "_"),
