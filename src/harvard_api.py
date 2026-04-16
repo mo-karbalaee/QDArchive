@@ -59,7 +59,7 @@ class HarvardDataverse:
             "version": f"{version_data.get('versionNumber')}.{version_data.get('versionMinorNumber')}",
             "title": search_item.get("name"),
             "description": search_item.get("description") or "No description provided.",
-            "language": get_val("language", multiple=True)[0] if get_val("language", multiple=True) else "en",
+            "language": get_val("language", multiple=True)[0] if get_val("language", multiple=True) else None,
             "doi": f"https://doi.org/{raw_doi.replace('doi:', '')}" if raw_doi else None,
             "upload_date": version_data.get("releaseTime", "").split("T")[0] or search_item.get("published_at", "").split("T")[0],
             "download_repository_folder": "harvard",

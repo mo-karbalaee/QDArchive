@@ -94,7 +94,7 @@ class IhsnApi:
             "version": citation.get('version', '1.0') if isinstance(citation, dict) else '1.0',
             "title": search_item.get("title") or "Unknown Title",
             "description": search_item.get("abstract") or "No description provided.",
-            "language": search_item.get("nation", "en"), 
+            "language": None, 
             "doi": citation.get('doi') if isinstance(citation, dict) else None,
             "upload_date": search_item.get("changed", "").split("T")[0], 
             "download_repository_folder": "ihsn",
