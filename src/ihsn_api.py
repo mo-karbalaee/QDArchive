@@ -96,7 +96,7 @@ class IhsnApi:
             "description": search_item.get("abstract") or "No description provided.",
             "language": search_item.get("nation", "en"), 
             "doi": citation.get('doi') if isinstance(citation, dict) else None,
-            "upload_date": search_item.get("changed", "").split(" ")[0], # Get date part of timestamp
+            "upload_date": search_item.get("changed", "").split("T")[0], 
             "download_repository_folder": "ihsn",
             "download_project_folder": str(idno).replace("/", "_") if idno else str(internal_id),
             "download_version_folder": "v1",

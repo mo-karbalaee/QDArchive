@@ -56,7 +56,7 @@ class HarvardDataverse:
             "repository_id": 18,  # Hardcoded repository ID
             "repository_url": self.base_url,
             "project_url": public_project_url, 
-            "version": f"v{version_data.get('versionNumber')}.{version_data.get('versionMinorNumber')}",
+            "version": f"{version_data.get('versionNumber')}.{version_data.get('versionMinorNumber')}",
             "title": search_item.get("name"),
             "description": search_item.get("description") or "No description provided.",
             "language": get_val("language", multiple=True)[0] if get_val("language", multiple=True) else "en",
