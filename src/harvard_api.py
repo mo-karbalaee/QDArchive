@@ -57,7 +57,9 @@ class HarvardDataverse:
         
         repo_id = 18 if "murray" in publisher else 10
 
-        repo_url = "https://www.murray.harvard.edu/dataverse" if repo_id is 18 else self.base_url
+        repo_url = "https://www.murray.harvard.edu/dataverse" if repo_id == 18 else self.base_url
+
+        download_repo_folder = "harvard-murray" if repo_id == 18 else "harvard-dataverse"
 
         project_info = {
             "query_string": query_string,
@@ -70,7 +72,7 @@ class HarvardDataverse:
             "language": get_val("language", multiple=True)[0] if get_val("language", multiple=True) else None,
             "doi": f"https://doi.org/{raw_doi.replace('doi:', '')}" if raw_doi else None,
             "upload_date": version_data.get("releaseTime", "").split("T")[0] or search_item.get("published_at", "").split("T")[0],
-            "download_repository_folder": "harvard",
+            "download_repository_folder": download_repo_folder,
             "download_project_folder": raw_doi.split("/")[-1] if raw_doi else "unknown_project",
             "download_version_folder": f"v{version_data.get('versionNumber')}",
             "download_method": "API-CALL"

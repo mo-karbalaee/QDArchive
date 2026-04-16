@@ -19,7 +19,7 @@ def main():
     # 4. Define the repositories to process sequentially
     repositories = [
         {
-            "name": "Harvard Dataverse",
+            "name": "Harvard Dataverse & Harvard Murray",
             "icon": "🏛️",
             "class": HarvardDataverse,
             "base_url": os.getenv("HARVARD_BASE_URL"),
