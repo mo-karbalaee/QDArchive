@@ -9,8 +9,8 @@ class UniversalIngestor:
         self.api = api
         self.data_root = Path(data_root)
         self.ignored_types = {
-            'mp4', 'mov', 'avi', 'mkv', 'wmv', 'flv', 'm4v', 'webm', # Video
-            'mp3', 'wav', 'aac', 'flac', 'ogg', 'wma', 'm4a'         # Audio
+            'mp4', 'mov', 'avi', 'mkv', 'wmv', 'flv', 'm4v', 'webm', 
+            'mp3', 'wav', 'aac', 'flac', 'ogg', 'wma', 'm4a'         
         }
 
     def start(self, query, limit=5):
@@ -20,6 +20,7 @@ class UniversalIngestor:
         print(f"📊 Found {total_found} projects to process.\n")
         
         for index, item in enumerate(items, 1):
+            # Keep lookup_id as it was for DB checks and processing
             lookup_id = item.get("idno") or item.get("global_id")
             progress = f"[{index}/{total_found}]"
             
@@ -30,7 +31,13 @@ class UniversalIngestor:
             print(f"{progress} 🚀 Processing: {lookup_id}")
 
             try:
-                raw_data = self.api.get_full_metadata(lookup_id)
+                # --- DIFFERENTIATED CALL HERE ---
+                # If the repository is IHSN (id 9), pass the numeric ID
+                # Otherwise, pass the standard lookup_id
+                target_id = item.get("id") if item.get("repository_id") == 9 or "ihsn" in str(self.api.__class__.__name__).lower() else lookup_id
+                
+                raw_data = self.api.get_full_metadata(target_id)
+                
                 project_info, files, keywords, people, licenses = self.api.parse_metadata(
                     item, raw_data, query
                 )
@@ -40,7 +47,6 @@ class UniversalIngestor:
                 
                 download_count = 0
                 if valid_files:
-                    # Construct storage path
                     storage_path = self.data_root / \
                                    str(project_info['download_repository_folder']) / \
                                    str(project_info['download_project_folder']) / \
@@ -64,7 +70,7 @@ class UniversalIngestor:
                             status_code = e.response.status_code
                             if status_code in [401, 403]:
                                 f['status'] = DownloadResult.FAILED_LOGIN_REQUIRED.name
-                            elif status_code == 413: # Payload Too Large
+                            elif status_code == 413: 
                                 f['status'] = DownloadResult.FAILED_TOO_LARGE.name
                             else:
                                 f['status'] = DownloadResult.FAILED_SERVER_UNRESPONSIVE.name
@@ -74,7 +80,6 @@ class UniversalIngestor:
                             f['status'] = DownloadResult.FAILED_SERVER_UNRESPONSIVE.name
                             print(f"      ⚠️  File error: {f['name']} - {e}")
 
-                # Insert into DB with the updated status in valid_files
                 self.db.insert_project_data(project_info, valid_files, keywords, people, licenses)
                 print(f"      ✅ Success: {download_count} files saved.")
 

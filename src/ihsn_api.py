@@ -1,5 +1,6 @@
 import requests
-from bs4 import BeautifulSoup
+from datetime import datetime
+from models.person_role import PersonRole 
 
 class IhsnApi:
     def __init__(self, base_url, api_key):
@@ -19,105 +20,136 @@ class IhsnApi:
             return response.json().get('result', {}).get('rows', [])
         except Exception:
             return []
-
-    def get_full_metadata(self, idno_or_id):
-        api_url = f"{self.api_url}/catalog/{idno_or_id}"
-        raw_data = {}
-        try:
-            resp = requests.get(api_url, headers=self.headers)
-            raw_data = resp.json()
-        except Exception:
-            pass
-
-        internal_id = raw_data.get('dataset', {}).get('id') or idno_or_id
-        scrape_url = f"{self.site_base}/catalog/{internal_id}/related-materials"
         
-        scraped_files = []
-        seen_urls = set()
+    def get_full_metadata(self, internal_id):
+        """Simple URL fetch for the JSON export."""
+        url = f"{self.site_base}/metadata/export/{internal_id}/json"
+        
+        print(f"\n--- DEBUG START ---")
+        print(f"Target URL: {url}")
         
         try:
-            s_resp = requests.get(scrape_url, headers=self.headers, timeout=15)
-            if s_resp.status_code == 200:
-                soup = BeautifulSoup(s_resp.text, 'html.parser')
-                for a in soup.find_all('a', href=True):
-                    href = a['href']
-                    if "/download/" in href:
-                        full_url = href if href.startswith('http') else f"{self.site_base}{href}"
-                        if full_url not in seen_urls:
-                            title = a.get('title') or a.text.strip()
-                            scraped_files.append({"download_url": full_url, "name": title})
-                            seen_urls.add(full_url)
+            # Simple GET request, no fluff
+            response = requests.get(url, timeout=15)
+            
+            print(f"HTTP Status: {response.status_code}")
+            print(f"Content Type: {response.headers.get('Content-Type')}")
+            
+            if response.status_code == 200:
+                data = response.json()
+                if not data:
+                    print("Status was 200, but JSON body is EMPTY.")
+                else:
+                    print("Success: JSON data retrieved.")
+                return data
+            else:
+                print(f"Error: Server returned {response.status_code}")
+                print(f"Response snippet: {response.text[:200]}")
+                return {}
                 
-                raw_data['scraped_files'] = scraped_files
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"Request failed: {str(e)}")
+            return {}
+        finally:
+            print(f"--- DEBUG END ---\n")    
 
-        return raw_data
 
     def download_file(self, file_url, save_path):
-        if file_url in self.downloaded_in_session:
-            return
-
-        if save_path.exists():
+        """Downloads the file from the generated catalog URL."""
+        if file_url in self.downloaded_in_session or save_path.exists():
             self.downloaded_in_session.add(file_url)
             return
-
+            
         try:
+            # We use stream=True for large dataset files
             response = requests.get(file_url, headers=self.headers, stream=True, timeout=60)
             response.raise_for_status()
             
             with open(save_path, 'wb') as f:
                 for chunk in response.iter_content(chunk_size=16384):
-                    f.write(chunk)
+                    if chunk:
+                        f.write(chunk)
             
             self.downloaded_in_session.add(file_url) 
             
-        except Exception:
-            pass
+        except Exception as e:
+            # Re-raise so the Ingestor can catch it and assign the FAILED enum
+            raise e
 
-    def parse_metadata(self, search_item, raw_data, query_string):
-        """Maps NADA JSON to the SQLite Schema format with repository_id 8."""
-        dataset_data = raw_data.get('dataset', {})
-        idno = search_item.get("idno")
-        internal_id = search_item.get("id") or dataset_data.get("id")
+    def parse_metadata(self, search_item, raw_json, query_string):
+        """Surgically extracts fields based on the provided JSON tree structure."""
         
-        metadata = dataset_data.get('metadata', {})
-        # NADA stores citation info deep in the survey_description
-        survey_desc = metadata.get('survey_description', {})
-        citation = survey_desc.get('citation', {}) if isinstance(survey_desc, dict) else metadata.get('citation', {})
+        # Branch shortcuts
+        doc_desc = raw_json.get('doc_desc', {})
+        study_desc = raw_json.get('study_desc', {})
+        study_info = study_desc.get('study_info', {})
+        data_access = raw_json.get('data_access', {})
+        dataset_use = data_access.get('dataset_use', {})
+        
+        internal_id = search_item.get('id')
+        title_stmt = study_desc.get('title_statement', {})
+        idno = title_stmt.get('idno')
+        
+        # Version & DOI
+        version_val = doc_desc.get('version_statement', {}).get('version')
+        cit_req = dataset_use.get('cit_req', "")
+        doi_val = cit_req.split("DOI: ")[-1].strip() if "DOI: " in cit_req else None
 
         project_info = {
             "query_string": query_string,
-            "repository_id": 9,  
+            "repository_id": 9,
             "repository_url": self.site_base,
             "project_url": f"{self.site_base}/catalog/{internal_id}",
-            "version": citation.get('version', '1.0') if isinstance(citation, dict) else '1.0',
-            "title": search_item.get("title") or "Unknown Title",
-            "description": search_item.get("abstract") or "No description provided.",
-            "language": None, 
-            "doi": citation.get('doi') if isinstance(citation, dict) else None,
-            "upload_date": search_item.get("changed", "").split("T")[0], 
+            "version": version_val,
+            "title": title_stmt.get('title'),
+            "description": study_info.get('abstract'),
+            "language": None,
+            "doi": doi_val,
+            "upload_date": doc_desc.get('prod_date'),
             "download_repository_folder": "ihsn",
-            "download_project_folder": str(idno).replace("/", "_") if idno else str(internal_id),
+            "download_project_folder": str(idno or internal_id).replace("/", "_"),
             "download_version_folder": "v1",
             "download_method": "API-CALL"
         }
 
-        files = []
-        for f in raw_data.get('scraped_files', []):
-            name = f['name']
-            clean_name = "".join([c for c in name if c.isalnum() or c in "._- "]).strip()
-            if "." not in clean_name:
-                clean_name += ".pdf"
+        # People & Roles
+        people = []
+        for auth in study_desc.get('authoring_entity', []):
+            if auth.get('name'):
+                people.append({"name": auth['name'], "role": PersonRole.AUTHOR.name})
+        
+        for prod in doc_desc.get('producers', []):
+            if prod.get('name'):
+                people.append({"name": prod['name'], "role": PersonRole.OWNER.name})
 
+        for fund in study_desc.get('production_statement', {}).get('funding_agencies', []):
+            if fund.get('name'):
+                people.append({"name": fund['name'], "role": PersonRole.OWNER.name})
+
+        for dist_contact in study_desc.get('distribution_statement', {}).get('contact', []):
+            if dist_contact.get('name'):
+                people.append({"name": dist_contact['name'], "role": PersonRole.UPLOADER.name})
+
+        # Keywords
+        keywords = []
+        if study_info.get('data_kind'):
+            keywords.append(study_info['data_kind'])
+        for n in study_info.get('nation', []):
+            if n.get('name'):
+                keywords.append(n['name'])
+
+        # Files
+        files = []
+        for df in raw_json.get('data_files', []):
+            f_name = df.get('file_name', 'unknown_file')
             files.append({
-                "id": f['download_url'],
-                "name": clean_name,
-                "type": clean_name.split('.')[-1].lower(),
-                "status": "SUCCEEDED" 
+                "id": f"{self.site_base}/catalog/{internal_id}/download/{df.get('file_id')}",
+                "name": f_name,
+                "type": f_name.split('.')[-1].lower() if '.' in f_name else 'data',
+                "status": None
             })
 
-        # Try to extract keywords from tags
-        keywords = [tag.get('tag') for tag in dataset_data.get('tags', []) if isinstance(tag, dict)]
+        # Licenses
+        licenses = [dataset_use.get('conditions', 'None')]
 
-        return project_info, files, keywords, [], []
+        return project_info, files, list(set(keywords)), people, licenses
