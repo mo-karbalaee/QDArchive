@@ -37,6 +37,8 @@ class HarvardDataverse:
 
     def parse_metadata(self, search_item, version_data, query_string):
         """Maps Dataverse JSON to the SQLite Schema format."""
+
+        print(search_item)
         
         # 1. Extract values from Dataverse metadata blocks
         fields = version_data.get('metadataBlocks', {}).get('citation', {}).get('fields', [])
@@ -51,10 +53,16 @@ class HarvardDataverse:
         # Construct the actual public landing page URL using the persistentId pattern
         public_project_url = f"{self.base_url}/dataset.xhtml?persistentId={raw_doi}"
 
+        publisher = search_item.get("publisher", "").lower()
+        
+        repo_id = 18 if "murray" in publisher else 10
+
+        repo_url = "https://www.murray.harvard.edu/dataverse" if repo_id is 18 else self.base_url
+
         project_info = {
             "query_string": query_string,
-            "repository_id": 18,
-            "repository_url": self.base_url,
+            "repository_id": repo_id,
+            "repository_url": repo_url,
             "project_url": public_project_url, 
             "version": f"{version_data.get('versionNumber')}.{version_data.get('versionMinorNumber')}",
             "title": search_item.get("name"),
