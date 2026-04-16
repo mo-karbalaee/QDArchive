@@ -84,7 +84,7 @@ class IhsnApi:
         doc_desc = raw_json.get('doc_desc', {})
         study_desc = raw_json.get('study_desc', {})
         study_info = study_desc.get('study_info', {})
-        data_access = raw_json.get('data_access', {})
+        data_access = study_desc.get('data_access', {})
         dataset_use = data_access.get('dataset_use', {})
         
         internal_id = search_item.get('id')
@@ -95,9 +95,11 @@ class IhsnApi:
         version_val = doc_desc.get('version_statement', {}).get('version')
         match = re.search(r'(?i)\b(?:version|v)\s*0*(\d+)\b', version_val)
         version = float(match.group(1)) if match else None
-        cit_req = dataset_use.get('cit_req', "")
+        cit_req = dataset_use.get('cit_req', "not found")
         match = re.search(r"https://doi\.org/\S+", cit_req)
         doi_url = match.group(0) if match else None
+
+        print(cit_req)
 
         project_info = {
             "query_string": query_string,
