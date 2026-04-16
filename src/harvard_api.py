@@ -61,12 +61,14 @@ class HarvardDataverse:
 
         download_repo_folder = "harvard-murray" if repo_id == 18 else "harvard-dataverse"
 
+        complete_version = f"{version_data.get('versionNumber')}.{version_data.get('versionMinorNumber')}"
+
         project_info = {
             "query_string": query_string,
             "repository_id": repo_id,
             "repository_url": repo_url,
             "project_url": public_project_url, 
-            "version": f"{version_data.get('versionNumber')}.{version_data.get('versionMinorNumber')}",
+            "version": complete_version,
             "title": search_item.get("name"),
             "description": search_item.get("description"),
             "language": get_val("language", multiple=True)[0] if get_val("language", multiple=True) else None,
@@ -74,7 +76,7 @@ class HarvardDataverse:
             "upload_date": version_data.get("releaseTime", "").split("T")[0] or search_item.get("published_at", "").split("T")[0],
             "download_repository_folder": download_repo_folder,
             "download_project_folder": raw_doi.split("/")[-1] if raw_doi else "unknown_project",
-            "download_version_folder": f"v{version_data.get('versionNumber')}",
+            "download_version_folder": f"v{complete_version}",
             "download_method": "API-CALL"
         }
 

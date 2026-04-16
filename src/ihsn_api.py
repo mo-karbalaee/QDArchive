@@ -93,6 +93,8 @@ class IhsnApi:
         
         # Version & DOI
         version_val = doc_desc.get('version_statement', {}).get('version')
+        match = re.search(r'(?i)\b(?:version|v)\s*0*(\d+)\b', version_val)
+        version = float(match.group(1)) if match else None
         cit_req = dataset_use.get('cit_req', "")
         match = re.search(r"https://doi\.org/\S+", cit_req)
         doi_url = match.group(0) if match else None
@@ -102,7 +104,7 @@ class IhsnApi:
             "repository_id": 9,
             "repository_url": self.site_base,
             "project_url": f"{self.site_base}/catalog/{internal_id}",
-            "version": version_val,
+            "version": version,
             "title": title_stmt.get('title'),
             "description": study_info.get('abstract'),
             "language": None,
@@ -110,7 +112,7 @@ class IhsnApi:
             "upload_date": doc_desc.get('prod_date'),
             "download_repository_folder": "ihsn",
             "download_project_folder": str(idno or internal_id).replace("/", "_"),
-            "download_version_folder": "v1",
+            "download_version_folder": f"v{version}",
             "download_method": "API-CALL"
         }
 
