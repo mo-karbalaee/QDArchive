@@ -114,7 +114,7 @@ class IhsnApi:
                 "id": f['download_url'],
                 "name": clean_name,
                 "type": clean_name.split('.')[-1].lower(),
-                "status": "SUCCEEDED" # Required by schema
+                "status": "SUCCEEDED" 
             })
 
         # Try to extract keywords from tags

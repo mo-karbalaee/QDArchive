@@ -86,7 +86,7 @@ class HarvardDataverse:
                 "id": f_id,
                 "name": label,
                 "type": label.split('.')[-1].lower() if '.' in label else 'unknown',
-                "status": "SUCCEEDED" # Required for schema integrity
+                "status": "SUCCEEDED" 
             })
 
         # 5. Licenses
