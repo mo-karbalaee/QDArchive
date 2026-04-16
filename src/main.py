@@ -13,7 +13,7 @@ def main():
     db = DatabaseManager()
     
     # 3. Define the query parameters
-    SEARCH_QUERY = "humanity"
+    SEARCH_QUERY = "love"
     LIMIT_PER_REPO = 1
 
     # 4. Define the repositories to process sequentially
