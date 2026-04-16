@@ -1,4 +1,5 @@
 import requests
+from models.person_role import PersonRole 
 
 class HarvardDataverse:
     def __init__(self, base_url, api_key):
@@ -48,12 +49,11 @@ class HarvardDataverse:
         raw_doi = search_item.get("global_id")
         
         # Construct the actual public landing page URL using the persistentId pattern
-        # This results in: https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/VRSCQD
         public_project_url = f"{self.base_url}/dataset.xhtml?persistentId={raw_doi}"
 
         project_info = {
             "query_string": query_string,
-            "repository_id": 18,  # Hardcoded repository ID
+            "repository_id": 18,
             "repository_url": self.base_url,
             "project_url": public_project_url, 
             "version": f"{version_data.get('versionNumber')}.{version_data.get('versionMinorNumber')}",
@@ -72,9 +72,25 @@ class HarvardDataverse:
         kw_entries = get_val("keyword", multiple=True)
         keywords = [k.get('keywordValue', {}).get('value') for k in kw_entries if isinstance(k, dict)]
 
-        # 3. People/Roles
-        author_entries = get_val("author", multiple=True)
-        people = [{"name": a.get('authorName', {}).get('value'), "role": "Author"} for a in author_entries]
+        # 3. People & Roles (Based on PersonRole Enum)
+        people = []
+        
+        # Authors -> AUTHOR
+        for a in get_val("author", multiple=True):
+            name = a.get('authorName', {}).get('value')
+            if name: 
+                people.append({"name": name, "role": PersonRole.AUTHOR.name})
+            
+        # Contacts -> OWNER
+        for c in get_val("datasetContact", multiple=True):
+            name = c.get('datasetContactName', {}).get('value')
+            if name: 
+                people.append({"name": name, "role": PersonRole.OWNER.name})
+
+        # Depositor -> UPLOADER
+        depositor = get_val("depositor")
+        if depositor: 
+            people.append({"name": depositor, "role": PersonRole.UPLOADER.name})
 
         # 4. Files
         files = []
@@ -85,8 +101,7 @@ class HarvardDataverse:
             files.append({
                 "id": f_id,
                 "name": label,
-                "type": label.split('.')[-1].lower() if '.' in label else 'unknown',
-                "status": "SUCCEEDED" 
+                "type": label.split('.')[-1].lower() if '.' in label else 'unknown', 
             })
 
         # 5. Licenses
