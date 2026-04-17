@@ -3,6 +3,7 @@ from datetime import datetime
 from models.person_role import PersonRole 
 import re
 from langdetect import detect
+from bs4 import BeautifulSoup
 
 class IhsnApi:
     def __init__(self, base_url, api_key):
@@ -24,16 +25,16 @@ class IhsnApi:
             return []
         
     def get_full_metadata(self, internal_id):
-        """Simple URL fetch for the JSON export."""
+        """Simple URL fetch for the JSON export + Scrape for download links."""
         url = f"{self.site_base}/metadata/export/{internal_id}/json"
+        scrape_url = f"{self.site_base}/catalog/{internal_id}/related-materials"
         
         print(f"\n--- DEBUG START ---")
         print(f"Target URL: {url}")
         
+        data = {}
         try:
-            # Simple GET request, no fluff
             response = requests.get(url, timeout=15)
-            
             print(f"HTTP Status: {response.status_code}")
             print(f"Content Type: {response.headers.get('Content-Type')}")
             
@@ -43,18 +44,33 @@ class IhsnApi:
                     print("Status was 200, but JSON body is EMPTY.")
                 else:
                     print("Success: JSON data retrieved.")
-                return data
             else:
                 print(f"Error: Server returned {response.status_code}")
                 print(f"Response snippet: {response.text[:200]}")
-                return {}
+
+            # INTEGRATED SCRAPING FROM CODE 1
+            scraped_files = []
+            seen_urls = set()
+            s_resp = requests.get(scrape_url, headers=self.headers, timeout=15)
+            if s_resp.status_code == 200:
+                soup = BeautifulSoup(s_resp.text, 'html.parser')
+                for a in soup.find_all('a', href=True):
+                    href = a['href']
+                    if "/download/" in href:
+                        full_url = href if href.startswith('http') else f"{self.site_base}{href}"
+                        if full_url not in seen_urls:
+                            title = a.get('title') or a.text.strip()
+                            scraped_files.append({"download_url": full_url, "name": title})
+                            seen_urls.add(full_url)
+                data['scraped_files_list'] = scraped_files
+
+            return data
                 
         except Exception as e:
             print(f"Request failed: {str(e)}")
             return {}
         finally:
             print(f"--- DEBUG END ---\n")    
-
 
     def download_file(self, file_url, save_path):
         """Downloads the file from the generated catalog URL."""
@@ -63,7 +79,6 @@ class IhsnApi:
             return
             
         try:
-            # We use stream=True for large dataset files
             response = requests.get(file_url, headers=self.headers, stream=True, timeout=60)
             response.raise_for_status()
             
@@ -75,13 +90,11 @@ class IhsnApi:
             self.downloaded_in_session.add(file_url) 
             
         except Exception as e:
-            # Re-raise so the Ingestor can catch it and assign the FAILED enum
             raise e
 
     def parse_metadata(self, search_item, raw_json, query_string):
         """Surgically extracts fields based on the provided JSON tree structure."""
         
-        # Branch shortcuts
         doc_desc = raw_json.get('doc_desc', {})
         study_desc = raw_json.get('study_desc', {})
         study_info = study_desc.get('study_info', {})
@@ -92,7 +105,6 @@ class IhsnApi:
         title_stmt = study_desc.get('title_statement', {})
         idno = title_stmt.get('idno')
         
-        # Version & DOI
         version_val = doc_desc.get('version_statement', {}).get('version')
         match = re.search(r'(?i)\b(?:version|v)\s*0*(\d+)\b', version_val)
         version = float(match.group(1)) if match else None
@@ -119,7 +131,7 @@ class IhsnApi:
             "download_method": "API-CALL"
         }
 
-        # People & Roles
+        # People & Roles (Restored exactly)
         people = []
         for auth in study_desc.get('authoring_entity', []):
             if auth.get('name'):
@@ -145,14 +157,18 @@ class IhsnApi:
             if n.get('name'):
                 keywords.append(n['name'])
 
-        # Files
+        # Files (Using the working download links from the scrape)
         files = []
-        for df in raw_json.get('data_files', []):
-            f_name = df.get('file_name', 'unknown_file')
+        for f in raw_json.get('scraped_files_list', []):
+            f_name = f['name']
+            clean_name = "".join([c for c in f_name if c.isalnum() or c in "._- "]).strip()
+            if "." not in clean_name:
+                clean_name += ".pdf"
+                
             files.append({
-                "id": f"{self.site_base}/catalog/{internal_id}/download/{df.get('file_id')}",
-                "name": f_name,
-                "type": f_name.split('.')[-1].lower() if '.' in f_name else 'data',
+                "id": f['download_url'],
+                "name": clean_name,
+                "type": clean_name.split('.')[-1].lower(),
                 "status": None
             })
 
