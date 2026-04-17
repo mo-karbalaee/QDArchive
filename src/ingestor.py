@@ -13,7 +13,7 @@ class UniversalIngestor:
             'mp4', 'mov', 'avi', 'mkv', 'wmv', 'flv', 'm4v', 'webm',
 
             # Audio
-            'mp3', 'wav', 'aac', 'flac', 'ogg', 'wma', 'm4a',
+            'mp3', 'wav', 'aac', 'flac', 'ogg', 'wma', 'm4a', 'mpg', 'm2ts'
 
             # Scientific / quantitative data
             'fits', 'hdf5', 'h5', 'nc', 'grib', 'mat', 'sav', 'dta',

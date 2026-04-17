@@ -1,13 +1,18 @@
 qualitative_queries = [
     # Core qualitative
-    "qualitative study",
-    "qualitative research",
-    "qualitative dataset",
-    "qualitative interviews",
-    "interview transcripts",
-    "focus groups",
-    "ethnography",
-    "field notes",
+    #"qualitative study",
+    #"qualitative research",
+    #"qualitative dataset",
+    #"qualitative interviews",
+    #"interview transcripts",
+    #"focus groups",
+    #"ethnography",
+    #"field notes",
+    "personality interviews",
+    "life experiences",
+    "attitudes and perceptions",
+    "beliefs and values",
+    "psychological interviews",
     "case study qualitative",
 
     # Interview-based (High Signal)
