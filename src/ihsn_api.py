@@ -4,6 +4,7 @@ from models.person_role import PersonRole
 import re
 from langdetect import detect
 from bs4 import BeautifulSoup
+from keybert import KeyBERT
 
 class IhsnApi:
     def __init__(self, base_url, api_key):
@@ -152,12 +153,13 @@ class IhsnApi:
         # Keywords
         keywords = []
         notes_str = study_info.get('notes')
+
+        kw_model = KeyBERT()
+        keywords_extracted = kw_model.extract_keywords(notes_str + study_info.get('abstract'))    
         
         if notes_str:
-            # Splits by comma and cleans up leading/trailing whitespace
-            notes_keywords = [k.strip() for k in notes_str.split(',') if k.strip()]
-            keywords.extend(notes_keywords)
-            
+            keywords.extend([word for word, score in keywords_extracted])
+
         if study_info.get('data_kind'):
             keywords.append(study_info['data_kind'])
         
