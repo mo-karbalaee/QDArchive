@@ -14,7 +14,7 @@ def main():
     
     # 3. Define the query parameters
     SEARCH_QUERY = "love"
-    LIMIT_PER_REPO = 1
+    LIMIT_PER_REPO = 2
 
     # 4. Define the repositories to process sequentially
     repositories = [

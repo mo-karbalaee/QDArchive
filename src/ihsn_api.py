@@ -1,10 +1,17 @@
 import requests
-from datetime import datetime
 from models.person_role import PersonRole 
 import re
 from langdetect import detect
 from bs4 import BeautifulSoup
 from keybert import KeyBERT
+import os
+import logging
+import transformers
+
+transformers.logging.set_verbosity_error()
+transformers.logging.disable_progress_bar()
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3" 
+logging.getLogger("sentence_transformers").setLevel(logging.ERROR)
 
 class IhsnApi:
     def __init__(self, base_url, api_key):
@@ -15,6 +22,7 @@ class IhsnApi:
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
         }
         self.downloaded_in_session = set()
+        self.kw_model = KeyBERT()
 
     def search_datasets(self, query, limit=5):
         url = f"{self.api_url}/catalog/search"
@@ -154,8 +162,7 @@ class IhsnApi:
         keywords = []
         notes_str = study_info.get('notes')
 
-        kw_model = KeyBERT()
-        keywords_extracted = kw_model.extract_keywords(notes_str + study_info.get('abstract'))    
+        keywords_extracted = self.kw_model.extract_keywords(notes_str + study_info.get('abstract'))    
         
         if notes_str:
             keywords.extend([word for word, score in keywords_extracted])
