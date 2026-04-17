@@ -42,9 +42,6 @@ data/processed/*
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 
-# Ignore local SQLite databases
-*.db
-*.sqlite3
 
 # --- IDE & System Clutter ---
 .vscode/
