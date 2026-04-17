@@ -151,11 +151,16 @@ class IhsnApi:
 
         # Keywords
         keywords = []
+        notes_str = study_info.get('notes')
+        
+        if notes_str:
+            # Splits by comma and cleans up leading/trailing whitespace
+            notes_keywords = [k.strip() for k in notes_str.split(',') if k.strip()]
+            keywords.extend(notes_keywords)
+            
         if study_info.get('data_kind'):
             keywords.append(study_info['data_kind'])
-        for n in study_info.get('nation', []):
-            if n.get('name'):
-                keywords.append(n['name'])
+        
 
         # Files (Using the working download links from the scrape)
         files = []
