@@ -4,6 +4,8 @@ from database import DatabaseManager
 from harvard_api import HarvardDataverse
 from ihsn_api import IhsnApi
 from ingestor import UniversalIngestor
+from models.query_terms import qualitative_queries
+import time
 
 def main():
     # 1. Load configuration
@@ -14,7 +16,7 @@ def main():
     
     # 3. Define the query parameters
     SEARCH_QUERY = "love"
-    LIMIT_PER_REPO = 2
+    LIMIT_PER_QUERY = 1
 
     # 4. Define the repositories to process sequentially
     repositories = [
@@ -34,31 +36,29 @@ def main():
         }
     ]
 
-    # 5. Execute sequential ingestion
-    for repo in repositories:
-        # Check if environment variables are set for this repo
-        if not repo["base_url"] or not repo["api_token"]:
-            print(f"⚠️  Skipping {repo['name']}: Missing URL or Token in .env")
-            continue
+    for query in qualitative_queries:
+        print(f"\n{'#'*60}")
+        print(f"🔎 GLOBAL QUERY: '{query}'")
+        print(f"{'#'*60}")
 
-        print(f"\n{'='*40}")
-        print(f"{repo['icon']}  Targeting: {repo['name']}")
-        print(f"{'='*40}")
+        for repo in repositories:
+            if not repo["base_url"] or not repo["api_token"]:
+                continue
 
-        try:
-            # Initialize the specific API strategy
-            api = repo["class"](repo["base_url"], repo["api_token"])
-            
-            # Initialize the Ingestor with the selected API
-            ingestor = UniversalIngestor(db, api, data_root="data")
+            print(f"\n{repo['icon']} Repository: {repo['name']}")
 
-            # Run the ingestion process
-            ingestor.start(query=SEARCH_QUERY, limit=LIMIT_PER_REPO)
-            
-        except Exception as e:
-            print(f"❌ Critical error processing {repo['name']}: {e}")
+            try:
+                api = repo["class"](repo["base_url"], repo["api_token"])
+                ingestor = UniversalIngestor(db, api, data_root="data")
 
-    print(f"\n✅ All scheduled ingestions complete.")
+                ingestor.start(query=query, limit=LIMIT_PER_QUERY)
+                
+                time.sleep(1)
+                
+            except Exception as e:
+                print(f"❌ Error in {repo['name']} for query '{query}': {e}")
+
+    print(f"\n✅ All {len(qualitative_queries)} queries processed.")
 
 if __name__ == "__main__":
     main()

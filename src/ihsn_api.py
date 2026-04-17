@@ -38,26 +38,14 @@ class IhsnApi:
         url = f"{self.site_base}/metadata/export/{internal_id}/json"
         scrape_url = f"{self.site_base}/catalog/{internal_id}/related-materials"
         
-        print(f"\n--- DEBUG START ---")
-        print(f"Target URL: {url}")
-        
         data = {}
         try:
             response = requests.get(url, timeout=15)
-            print(f"HTTP Status: {response.status_code}")
-            print(f"Content Type: {response.headers.get('Content-Type')}")
             
             if response.status_code == 200:
                 data = response.json()
-                if not data:
-                    print("Status was 200, but JSON body is EMPTY.")
-                else:
-                    print("Success: JSON data retrieved.")
-            else:
-                print(f"Error: Server returned {response.status_code}")
-                print(f"Response snippet: {response.text[:200]}")
 
-            # INTEGRATED SCRAPING FROM CODE 1
+            # Scraping for download links
             scraped_files = []
             seen_urls = set()
             s_resp = requests.get(scrape_url, headers=self.headers, timeout=15)
@@ -75,11 +63,8 @@ class IhsnApi:
 
             return data
                 
-        except Exception as e:
-            print(f"Request failed: {str(e)}")
+        except Exception:
             return {}
-        finally:
-            print(f"--- DEBUG END ---\n")    
 
     def download_file(self, file_url, save_path):
         """Downloads the file from the generated catalog URL."""
@@ -121,8 +106,6 @@ class IhsnApi:
         match = re.search(r"https://doi\.org/\S+", cit_req)
         doi_url = match.group(0) if match else None
 
-        print(cit_req)
-
         project_info = {
             "query_string": query_string,
             "repository_id": 9,
@@ -140,7 +123,7 @@ class IhsnApi:
             "download_method": "API-CALL"
         }
 
-        # People & Roles (Restored exactly)
+        # People & Roles
         people = []
         for auth in study_desc.get('authoring_entity', []):
             if auth.get('name'):
@@ -162,7 +145,9 @@ class IhsnApi:
         keywords = []
         notes_str = study_info.get('notes')
 
-        keywords_extracted = self.kw_model.extract_keywords(notes_str + study_info.get('abstract'))    
+        keywords_extracted = self.kw_model.extract_keywords(
+            (notes_str or "") + (study_info.get('abstract') or "")
+        )    
         
         if notes_str:
             keywords.extend([word for word, score in keywords_extracted])
@@ -170,8 +155,7 @@ class IhsnApi:
         if study_info.get('data_kind'):
             keywords.append(study_info['data_kind'])
         
-
-        # Files (Using the working download links from the scrape)
+        # Files
         files = []
         for f in raw_json.get('scraped_files_list', []):
             f_name = f['name']
