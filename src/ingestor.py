@@ -9,8 +9,20 @@ class UniversalIngestor:
         self.api = api
         self.data_root = Path(data_root)
         self.ignored_types = {
-            'mp4', 'mov', 'avi', 'mkv', 'wmv', 'flv', 'm4v', 'webm', 
-            'mp3', 'wav', 'aac', 'flac', 'ogg', 'wma', 'm4a'         
+            # Video
+            'mp4', 'mov', 'avi', 'mkv', 'wmv', 'flv', 'm4v', 'webm',
+
+            # Audio
+            'mp3', 'wav', 'aac', 'flac', 'ogg', 'wma', 'm4a',
+
+            # Scientific / quantitative data
+            'fits', 'hdf5', 'h5', 'nc', 'grib', 'mat', 'sav', 'dta',
+
+            # Archives
+            'zip', 'rar', '7z', 'tar', 'gz', 'bz2',
+
+            # Binaries / executables
+            'exe', 'dll', 'so', 'bin', 'dat'
         }
 
     def start(self, query, limit=5):

@@ -119,7 +119,7 @@ class IhsnApi:
             "upload_date": doc_desc.get('prod_date'),
             "download_repository_folder": "ihsn",
             "download_project_folder": str(idno or internal_id).replace("/", "_"),
-            "download_version_folder": f"v{version}",
+            "download_version_folder": f"v{version}" if version else None,
             "download_method": "API-CALL"
         }
 
@@ -171,6 +171,6 @@ class IhsnApi:
             })
 
         # Licenses
-        licenses = [dataset_use.get('conditions', 'None')]
+        licenses = [dataset_use.get('conditions', None)]
 
         return project_info, files, list(set(keywords)), people, licenses
