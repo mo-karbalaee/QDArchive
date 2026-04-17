@@ -1,5 +1,6 @@
 import requests
 from models.person_role import PersonRole 
+from langdetect import detect
 
 class HarvardDataverse:
     def __init__(self, base_url, api_key):
@@ -37,8 +38,6 @@ class HarvardDataverse:
 
     def parse_metadata(self, search_item, version_data, query_string):
         """Maps Dataverse JSON to the SQLite Schema format."""
-
-        print(search_item)
         
         # 1. Extract values from Dataverse metadata blocks
         fields = version_data.get('metadataBlocks', {}).get('citation', {}).get('fields', [])
@@ -71,7 +70,7 @@ class HarvardDataverse:
             "version": complete_version,
             "title": search_item.get("name"),
             "description": search_item.get("description"),
-            "language": get_val("language", multiple=True)[0] if get_val("language", multiple=True) else None,
+            "language": get_val("language", multiple=True)[0] if get_val("language", multiple=True) else detect(search_item.get("description")),
             "doi": f"https://doi.org/{raw_doi.replace('doi:', '')}" if raw_doi else None,
             "upload_date": version_data.get("releaseTime", "").split("T")[0] or search_item.get("published_at", "").split("T")[0],
             "download_repository_folder": download_repo_folder,

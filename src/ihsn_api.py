@@ -2,6 +2,7 @@ import requests
 from datetime import datetime
 from models.person_role import PersonRole 
 import re
+from langdetect import detect
 
 class IhsnApi:
     def __init__(self, base_url, api_key):
@@ -109,7 +110,7 @@ class IhsnApi:
             "version": version,
             "title": title_stmt.get('title'),
             "description": study_info.get('abstract'),
-            "language": None,
+            "language": detect(study_info.get('abstract')),
             "doi": doi_url,
             "upload_date": doc_desc.get('prod_date'),
             "download_repository_folder": "ihsn",
