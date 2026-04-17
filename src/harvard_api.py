@@ -116,7 +116,7 @@ class HarvardDataverse:
             })
 
         # 5. Licenses
-        license_name = version_data.get('license', {}).get('name', 'None')
+        license_name = version_data.get('license', {}).get('name', None)
         license = [license_name]
 
         return project_info, files, keywords, people, license
