@@ -1,0 +1,463 @@
+{
+  "sections": {
+    "A": "Agriculture, forestry and fishing",
+    "B": "Mining and quarrying",
+    "C": "Manufacturing",
+    "D": "Electricity, gas, steam and air conditioning supply",
+    "E": "Water supply; sewerage, waste management and remediation activities",
+    "F": "Construction",
+    "G": "Wholesale and retail trade",
+    "H": "Transportation and storage",
+    "I": "Accommodation and food service activities",
+    "J": "Publishing, broadcasting, and content production and distribution activities",
+    "K": "Telecommunications, computer programming, consultancy, computing infrastructure, and other information service activities",
+    "L": "Financial and insurance activities",
+    "M": "Real estate activities",
+    "N": "Professional, scientific and technical activities",
+    "O": "Administrative and support service activities",
+    "P": "Public administration and defense; compulsory social security",
+    "Q": "Education",
+    "R": "Human health and social work activities",
+    "S": "Arts, sports and recreation",
+    "T": "Other service activities",
+    "U": "Activities of households as employers; undifferentiated goods- and services-producing activities of households for own use",
+    "V": "Activities of extraterritorial organizations and bodies"
+  },
+  "divisions": [
+    {
+      "section": "A",
+      "code": "01",
+      "title": "Crop and animal production, hunting and related service activities"
+    },
+    {
+      "section": "A",
+      "code": "02",
+      "title": "Forestry and logging"
+    },
+    {
+      "section": "A",
+      "code": "03",
+      "title": "Fishing and aquaculture"
+    },
+    {
+      "section": "B",
+      "code": "05",
+      "title": "Mining of coal and lignite"
+    },
+    {
+      "section": "B",
+      "code": "06",
+      "title": "Extraction of crude petroleum and natural gas"
+    },
+    {
+      "section": "B",
+      "code": "07",
+      "title": "Mining of metal ores"
+    },
+    {
+      "section": "B",
+      "code": "08",
+      "title": "Other mining and quarrying"
+    },
+    {
+      "section": "B",
+      "code": "09",
+      "title": "Mining support service activities"
+    },
+    {
+      "section": "C",
+      "code": "10",
+      "title": "Manufacture of food products"
+    },
+    {
+      "section": "C",
+      "code": "11",
+      "title": "Manufacture of beverages"
+    },
+    {
+      "section": "C",
+      "code": "12",
+      "title": "Manufacture of tobacco products"
+    },
+    {
+      "section": "C",
+      "code": "13",
+      "title": "Manufacture of textiles"
+    },
+    {
+      "section": "C",
+      "code": "14",
+      "title": "Manufacture of wearing apparel"
+    },
+    {
+      "section": "C",
+      "code": "15",
+      "title": "Manufacture of leather and related products"
+    },
+    {
+      "section": "C",
+      "code": "16",
+      "title": "Manufacture of wood and of products of wood and cork, except furniture; manufacture of articles of straw and plaiting materials"
+    },
+    {
+      "section": "C",
+      "code": "17",
+      "title": "Manufacture of paper and paper products"
+    },
+    {
+      "section": "C",
+      "code": "18",
+      "title": "Printing and reproduction of recorded media"
+    },
+    {
+      "section": "C",
+      "code": "19",
+      "title": "Manufacture of coke and refined petroleum products"
+    },
+    {
+      "section": "C",
+      "code": "20",
+      "title": "Manufacture of chemicals and chemical products"
+    },
+    {
+      "section": "C",
+      "code": "21",
+      "title": "Manufacture of basic pharmaceutical products and pharmaceutical preparations"
+    },
+    {
+      "section": "C",
+      "code": "22",
+      "title": "Manufacture of rubber and plastic products"
+    },
+    {
+      "section": "C",
+      "code": "23",
+      "title": "Manufacture of other non-metallic mineral products"
+    },
+    {
+      "section": "C",
+      "code": "24",
+      "title": "Manufacture of basic metals"
+    },
+    {
+      "section": "C",
+      "code": "25",
+      "title": "Manufacture of fabricated metal products, except machinery and equipment"
+    },
+    {
+      "section": "C",
+      "code": "26",
+      "title": "Manufacture of computer, electronic and optical products"
+    },
+    {
+      "section": "C",
+      "code": "27",
+      "title": "Manufacture of electrical equipment"
+    },
+    {
+      "section": "C",
+      "code": "28",
+      "title": "Manufacture of machinery and equipment n.e.c."
+    },
+    {
+      "section": "C",
+      "code": "29",
+      "title": "Manufacture of motor vehicles, trailers and semi-trailers"
+    },
+    {
+      "section": "C",
+      "code": "30",
+      "title": "Manufacture of other transport equipment"
+    },
+    {
+      "section": "C",
+      "code": "31",
+      "title": "Manufacture of furniture"
+    },
+    {
+      "section": "C",
+      "code": "32",
+      "title": "Other manufacturing"
+    },
+    {
+      "section": "C",
+      "code": "33",
+      "title": "Repair, maintenance and installation of machinery and equipment"
+    },
+    {
+      "section": "D",
+      "code": "35",
+      "title": "Electricity, gas, steam and air conditioning supply"
+    },
+    {
+      "section": "E",
+      "code": "36",
+      "title": "Water collection, treatment and supply"
+    },
+    {
+      "section": "E",
+      "code": "37",
+      "title": "Sewerage"
+    },
+    {
+      "section": "E",
+      "code": "38",
+      "title": "Waste collection, treatment and disposal, and recovery activities"
+    },
+    {
+      "section": "E",
+      "code": "39",
+      "title": "Remediation and other waste management service activities"
+    },
+    {
+      "section": "F",
+      "code": "41",
+      "title": "Construction of residential and non-residential buildings"
+    },
+    {
+      "section": "F",
+      "code": "42",
+      "title": "Civil engineering"
+    },
+    {
+      "section": "F",
+      "code": "43",
+      "title": "Specialized construction activities"
+    },
+    {
+      "section": "G",
+      "code": "46",
+      "title": "Wholesale trade"
+    },
+    {
+      "section": "G",
+      "code": "47",
+      "title": "Retail trade"
+    },
+    {
+      "section": "H",
+      "code": "49",
+      "title": "Land transport and transport via pipelines"
+    },
+    {
+      "section": "H",
+      "code": "50",
+      "title": "Water transport"
+    },
+    {
+      "section": "H",
+      "code": "51",
+      "title": "Air transport"
+    },
+    {
+      "section": "H",
+      "code": "52",
+      "title": "Warehousing and support activities for transportation"
+    },
+    {
+      "section": "H",
+      "code": "53",
+      "title": "Postal and courier activities"
+    },
+    {
+      "section": "I",
+      "code": "55",
+      "title": "Accommodation"
+    },
+    {
+      "section": "I",
+      "code": "56",
+      "title": "Food and beverage service activities"
+    },
+    {
+      "section": "J",
+      "code": "58",
+      "title": "Publishing activities"
+    },
+    {
+      "section": "J",
+      "code": "59",
+      "title": "Motion picture, video and television programme production, sound recording and music publishing activities"
+    },
+    {
+      "section": "J",
+      "code": "60",
+      "title": "Programming, broadcasting, news agency and other content distribution activities"
+    },
+    {
+      "section": "K",
+      "code": "61",
+      "title": "Telecommunications"
+    },
+    {
+      "section": "K",
+      "code": "62",
+      "title": "Computer programming, consultancy and related activities"
+    },
+    {
+      "section": "K",
+      "code": "63",
+      "title": "Computing infrastructure, data processing, hosting, and other information service activities"
+    },
+    {
+      "section": "L",
+      "code": "64",
+      "title": "Financial service activities, except insurance and pension funding"
+    },
+    {
+      "section": "L",
+      "code": "65",
+      "title": "Insurance, reinsurance and pension funding, except compulsory social security"
+    },
+    {
+      "section": "L",
+      "code": "66",
+      "title": "Activities auxiliary to financial service and insurance activities"
+    },
+    {
+      "section": "M",
+      "code": "68",
+      "title": "Real estate activities"
+    },
+    {
+      "section": "N",
+      "code": "69",
+      "title": "Legal and accounting activities"
+    },
+    {
+      "section": "N",
+      "code": "70",
+      "title": "Activities of head offices; management consultancy activities"
+    },
+    {
+      "section": "N",
+      "code": "71",
+      "title": "Architectural and engineering activities; technical testing and analysis"
+    },
+    {
+      "section": "N",
+      "code": "72",
+      "title": "Scientific research and development"
+    },
+    {
+      "section": "N",
+      "code": "73",
+      "title": "Activities of advertising, market research and public relations"
+    },
+    {
+      "section": "N",
+      "code": "74",
+      "title": "Other professional, scientific and technical activities"
+    },
+    {
+      "section": "N",
+      "code": "75",
+      "title": "Veterinary activities"
+    },
+    {
+      "section": "O",
+      "code": "77",
+      "title": "Rental and leasing activities"
+    },
+    {
+      "section": "O",
+      "code": "78",
+      "title": "Employment activities"
+    },
+    {
+      "section": "O",
+      "code": "79",
+      "title": "Travel agency, tour operator, and other travel related activities"
+    },
+    {
+      "section": "O",
+      "code": "80",
+      "title": "Investigation and security activities"
+    },
+    {
+      "section": "O",
+      "code": "81",
+      "title": "Services to buildings and landscape activities"
+    },
+    {
+      "section": "O",
+      "code": "82",
+      "title": "Office administrative, office support and other business support activities"
+    },
+    {
+      "section": "P",
+      "code": "84",
+      "title": "Public administration and defence; compulsory social security"
+    },
+    {
+      "section": "Q",
+      "code": "85",
+      "title": "Education"
+    },
+    {
+      "section": "R",
+      "code": "86",
+      "title": "Human health activities"
+    },
+    {
+      "section": "R",
+      "code": "87",
+      "title": "Residential care activities"
+    },
+    {
+      "section": "R",
+      "code": "88",
+      "title": "Social work activities without accommodation"
+    },
+    {
+      "section": "S",
+      "code": "90",
+      "title": "Arts creation and performing arts activities"
+    },
+    {
+      "section": "S",
+      "code": "91",
+      "title": "Library, archives, museum and other cultural activities"
+    },
+    {
+      "section": "S",
+      "code": "92",
+      "title": "Gambling and betting activities"
+    },
+    {
+      "section": "S",
+      "code": "93",
+      "title": "Sports activities and amusement and recreation activities"
+    },
+    {
+      "section": "T",
+      "code": "94",
+      "title": "Activities of membership organizations"
+    },
+    {
+      "section": "T",
+      "code": "95",
+      "title": "Repair and maintenance of computers, personal and household goods, and motor vehicles and motorcycles"
+    },
+    {
+      "section": "T",
+      "code": "96",
+      "title": "Personal service activities"
+    },
+    {
+      "section": "U",
+      "code": "97",
+      "title": "Activities of households as employers of domestic personnel"
+    },
+    {
+      "section": "U",
+      "code": "98",
+      "title": "Undifferentiated goods- and services-producing activities of private households for own use"
+    },
+    {
+      "section": "V",
+      "code": "99",
+      "title": "Activities of extraterritorial organizations and bodies"
+    }
+  ]
+}
