@@ -52,6 +52,5 @@ Thumbs.db
 
 data/
 
-# --- Databases (raw sources + generated aggregate; too large for git) ---
+# --- Databases (raw sources too large for git; aggregated db is tracked via Git LFS) ---
 databases/*.db
-23688981-sq26-aggregated.db
