@@ -54,4 +54,4 @@ data/
 
 # --- Databases (raw sources + generated aggregate; too large for git) ---
 databases/*.db
-aggregated.db
+23688981-sq26-aggregated.db
