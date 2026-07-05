@@ -33,8 +33,8 @@ def main():
 
     counts = get_repository_counts(args.db)
 
-    pie_path = output_dir / "repository_pie.png"
-    histogram_path = output_dir / "repository_histogram.png"
+    pie_path = output_dir / "repository_pie.svg"
+    histogram_path = output_dir / "repository_histogram.svg"
     plot_pie(counts, "Projects by repository (top 7 + Other)", pie_path)
     plot_bar(counts, "Projects per repository", "Number of projects", histogram_path)
 

@@ -34,8 +34,8 @@ def main():
 
     counts = get_project_type_counts(args.db)
 
-    pie_path = output_dir / "project_type_pie.png"
-    histogram_path = output_dir / "project_type_histogram.png"
+    pie_path = output_dir / "project_type_pie.svg"
+    histogram_path = output_dir / "project_type_histogram.svg"
     plot_pie(counts, "Projects by type", pie_path, top_n=len(PROJECT_TYPES))
     plot_bar(counts, "Projects per type", "Number of projects", histogram_path)
 
