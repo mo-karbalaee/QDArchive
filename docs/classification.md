@@ -13,7 +13,7 @@ this project have," this asks "what field of study is this project about."
 ## The taxonomy reference (`isic_rev5.json`, `reference.py`)
 
 The official ISIC Rev. 5 structure (22 Sections, 87 Divisions) was downloaded directly
-from the UN Stats structure CSV linked in CLAUDE.md and saved as
+from the UN Stats structure CSV and saved as
 `taxonomy/isic_rev5.json` — `{"sections": {letter: title}, "divisions": [{section, code,
 title}, ...]}`. `reference.py` provides small loaders (`load_sections`, `load_divisions`)
 and `division_label()`, which formats a division as `"{section}{code} - {code} - {title}"`
