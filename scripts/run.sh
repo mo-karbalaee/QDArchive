@@ -1,4 +1,4 @@
 rm -r data/
 rm *.db
 
-uv run src/main.py
+uv run src/phase1_acquisition/main.py

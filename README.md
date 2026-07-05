@@ -24,7 +24,7 @@ uv sync
 
 
 ```shell
-uv run src/main.py 
+uv run src/phase1_acquisition/main.py
 ```
 
 
