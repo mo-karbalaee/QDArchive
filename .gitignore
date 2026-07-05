@@ -17,6 +17,7 @@ sdist/
 var/
 wheels/
 *.egg-info/
+CLAUDE.md
 .installed.cfg
 *.egg
 MANIFEST
