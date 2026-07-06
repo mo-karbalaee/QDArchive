@@ -37,7 +37,7 @@ def plot_pie(counts, title, output_path, top_n=TOP_N_SLICES):
         wedgeprops={"linewidth": 2, "edgecolor": SURFACE_COLOR},
     )
     ax.set_title(title, color=PRIMARY_INK)
-    fig.savefig(output_path, dpi=150, facecolor=SURFACE_COLOR)
+    fig.savefig(output_path, dpi=150, facecolor=SURFACE_COLOR, bbox_inches="tight")
     plt.close(fig)
 
 
@@ -62,5 +62,5 @@ def plot_bar(counts, title, xlabel, output_path):
         label.set_color(PRIMARY_INK)
 
     fig.tight_layout()
-    fig.savefig(output_path, dpi=150, facecolor=SURFACE_COLOR)
+    fig.savefig(output_path, dpi=150, facecolor=SURFACE_COLOR, bbox_inches="tight")
     plt.close(fig)
