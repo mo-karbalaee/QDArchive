@@ -22,43 +22,39 @@ class DatabaseManager:
             conn.close()
 
     def _init_db(self):
-        """Initializes the database schema with mandatory field constraints."""
         with self._get_cursor() as cursor:
-            # 1. PROJECTS Table
             cursor.execute('''
                 CREATE TABLE IF NOT EXISTS PROJECTS (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     query_string TEXT,
                     repository_id INTEGER NOT NULL,
                     repository_url TEXT NOT NULL,
-                    project_url TEXT UNIQUE NOT NULL, 
+                    project_url TEXT UNIQUE NOT NULL,
                     version TEXT,
                     title TEXT NOT NULL,
                     description TEXT NOT NULL,
                     language TEXT,
-                    doi TEXT,              
+                    doi TEXT,
                     upload_date DATE,
                     download_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                     download_repository_folder TEXT NOT NULL,
                     download_project_folder TEXT NOT NULL,
                     download_version_folder TEXT,
-                    download_method TEXT NOT NULL
+                    download_method TEXT NOT NULL CHECK (download_method IN ('SCRAPING', 'API-CALL'))
                 )
             ''')
 
-            # 2. FILES Table
             cursor.execute('''
                 CREATE TABLE IF NOT EXISTS FILES (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     project_id INTEGER NOT NULL,
                     file_name TEXT NOT NULL,
                     file_type TEXT NOT NULL,
-                    status TEXT NOT NULL,
+                    status TEXT NOT NULL CHECK (status IN ('SUCCEEDED', 'FAILED_SERVER_UNRESPONSIVE', 'FAILED_LOGIN_REQUIRED', 'FAILED_TOO_LARGE')),
                     FOREIGN KEY (project_id) REFERENCES PROJECTS (id) ON DELETE CASCADE
                 )
             ''')
 
-            # 3. KEYWORDS Table
             cursor.execute('''
                 CREATE TABLE IF NOT EXISTS KEYWORDS (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -68,18 +64,16 @@ class DatabaseManager:
                 )
             ''')
 
-            # 4. PERSON_ROLE Table
             cursor.execute('''
                 CREATE TABLE IF NOT EXISTS PERSON_ROLE (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     project_id INTEGER NOT NULL,
                     name TEXT NOT NULL,
-                    role TEXT NOT NULL,
+                    role TEXT NOT NULL CHECK (role IN ('UPLOADER', 'AUTHOR', 'OWNER', 'OTHER', 'UNKNOWN')),
                     FOREIGN KEY (project_id) REFERENCES PROJECTS (id) ON DELETE CASCADE
                 )
             ''')
 
-            # 5. LICENSES Table
             cursor.execute('''
                 CREATE TABLE IF NOT EXISTS LICENSES (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,

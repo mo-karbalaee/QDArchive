@@ -44,60 +44,81 @@ def get_cursor(db_path):
         conn.close()
 
 
-def init_output_db(db_path):
-    with get_cursor(db_path) as cursor:
-        cursor.execute('''
+PROJECT_TYPE_VALUES = ("QDA_PROJECT", "QD_PROJECT", "OTHER_PROJECT", "NOT_A_PROJECT")
+DOWNLOAD_METHOD_VALUES = ("SCRAPING", "API-CALL")
+DOWNLOAD_RESULT_VALUES = ("SUCCEEDED", "FAILED_SERVER_UNRESPONSIVE", "FAILED_LOGIN_REQUIRED", "FAILED_TOO_LARGE")
+PERSON_ROLE_VALUES = ("UPLOADER", "AUTHOR", "OWNER", "OTHER", "UNKNOWN")
+
+
+def _sql_list(values):
+    return ", ".join(f"'{value}'" for value in values)
+
+
+def create_table_statements():
+    return [
+        f'''
             CREATE TABLE IF NOT EXISTS PROJECTS (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 query_string TEXT,
-                repository_id INTEGER,
-                repository_url TEXT,
-                project_url TEXT,
+                repository_id INTEGER NOT NULL,
+                repository_url TEXT NOT NULL,
+                project_url TEXT UNIQUE NOT NULL,
                 version TEXT,
-                title TEXT,
-                description TEXT,
+                type TEXT CHECK (type IN ({_sql_list(PROJECT_TYPE_VALUES)})),
+                title TEXT NOT NULL,
+                description TEXT NOT NULL,
                 language TEXT,
                 doi TEXT,
                 upload_date DATE,
-                download_date TIMESTAMP,
-                download_repository_folder TEXT,
-                download_project_folder TEXT,
+                download_date TIMESTAMP NOT NULL,
+                download_repository_folder TEXT NOT NULL,
+                download_project_folder TEXT NOT NULL,
                 download_version_folder TEXT,
-                download_method TEXT
+                download_method TEXT NOT NULL CHECK (download_method IN ({_sql_list(DOWNLOAD_METHOD_VALUES)})),
+                primary_class TEXT,
+                secondary_class TEXT,
+                tags TEXT
             )
-        ''')
-        cursor.execute('''
+        ''',
+        f'''
             CREATE TABLE IF NOT EXISTS FILES (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 project_id INTEGER NOT NULL,
-                file_name TEXT,
-                file_type TEXT,
-                status TEXT,
+                file_name TEXT NOT NULL,
+                file_type TEXT NOT NULL,
+                status TEXT NOT NULL CHECK (status IN ({_sql_list(DOWNLOAD_RESULT_VALUES)})),
                 FOREIGN KEY (project_id) REFERENCES PROJECTS (id) ON DELETE CASCADE
             )
-        ''')
-        cursor.execute('''
+        ''',
+        '''
             CREATE TABLE IF NOT EXISTS KEYWORDS (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 project_id INTEGER NOT NULL,
-                keyword TEXT,
+                keyword TEXT NOT NULL,
                 FOREIGN KEY (project_id) REFERENCES PROJECTS (id) ON DELETE CASCADE
             )
-        ''')
-        cursor.execute('''
+        ''',
+        f'''
             CREATE TABLE IF NOT EXISTS PERSON_ROLE (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 project_id INTEGER NOT NULL,
-                name TEXT,
-                role TEXT,
+                name TEXT NOT NULL,
+                role TEXT NOT NULL CHECK (role IN ({_sql_list(PERSON_ROLE_VALUES)})),
                 FOREIGN KEY (project_id) REFERENCES PROJECTS (id) ON DELETE CASCADE
             )
-        ''')
-        cursor.execute('''
+        ''',
+        '''
             CREATE TABLE IF NOT EXISTS LICENSES (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 project_id INTEGER NOT NULL,
-                license TEXT,
+                license TEXT NOT NULL,
                 FOREIGN KEY (project_id) REFERENCES PROJECTS (id) ON DELETE CASCADE
             )
-        ''')
+        ''',
+    ]
+
+
+def init_output_db(db_path):
+    with get_cursor(db_path) as cursor:
+        for statement in create_table_statements():
+            cursor.execute(statement)
