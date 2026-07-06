@@ -123,7 +123,7 @@ def render_subsection(title, slug, tables_root, res_dir):
             "",
             r"\begin{figure}[H]",
             r"    \centering",
-            rf"    \includesvg[width=\textwidth]{{{res_dir}/{slug}/primary_class_histogram}}",
+            rf"    \includesvg[width=\textwidth]{{{res_dir}/{slug}/{slug}_primary_class_histogram}}",
             rf"    \caption{{Primary class distribution --- {escape_latex(title)}}}",
             r"\end{figure}",
             "",
@@ -142,7 +142,7 @@ def main():
         default="src/phase2_classification/data_analysis/output/by_repository",
     )
     parser.add_argument("--res-dir", default="res/by_repository")
-    parser.add_argument("--output", default="classification_results.tex")
+    parser.add_argument("--output", default="docs/classification_results.tex")
     args = parser.parse_args()
 
     sections = [INTRO]

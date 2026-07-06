@@ -103,7 +103,7 @@ def main():
         repo_dir = output_root / slugify(repo_name)
         repo_dir.mkdir(parents=True, exist_ok=True)
 
-        histogram_path = repo_dir / "primary_class_histogram.svg"
+        histogram_path = repo_dir / f"{slugify(repo_name)}_primary_class_histogram.svg"
         plot_bar_with_counts(counts, f"Primary classes - {repo_name}", "Number of projects", histogram_path)
 
         table_path = repo_dir / "primary_class_table.csv"
