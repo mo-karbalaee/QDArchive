@@ -1,0 +1,1000 @@
+\section{Classification Results}
+
+In this section, I present the results of the filtering and classification procedures applied to the aggregated database. The analysis is structured on a per-repository basis in order to provide a clear and systematic overview of the observed patterns. Each repository-specific subsection contains a set of standardized outputs designed to facilitate comparison across repositories and to support interpretation of the classification results.
+
+More specifically, each subsection includes the following components:
+
+\begin{enumerate}
+
+    \item A histogram showing the distribution of primary classes detected in the repository. This allows for a detailed examination of the most prevalent classification outcomes and highlights dominant patterns in the data.
+
+    \item A rank-ordered table listing the identified classes according to their frequency. This table provides a compact summary of class prevalence and supports direct comparison between classes in terms of their occurrence.
+\end{enumerate}
+
+\subsection{Zenodo}
+
+\begin{itemize}
+    \item Total projects: 51426
+    \item Distinct primary classes observed: 87
+    \item Most common primary class: A03 - 03 - Fishing and aquaculture (3296 projects, 6.4\%)
+\end{itemize}
+\textbf{Projects by type}
+\begin{itemize}
+    \item QDA: 68 (0.1\%)
+    \item QD: 27095 (52.7\%)
+    \item Other project: 22967 (44.7\%)
+    \item No project: 1296 (2.5\%)
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includesvg[width=\textwidth]{res/by_repository/zenodo/primary_class_histogram}
+    \caption{Primary class distribution --- Zenodo}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{r p{10cm} r}
+    \hline
+    \textbf{Rank} & \textbf{Primary Class} & \textbf{Count} \\
+    \hline
+    1 & A03 - 03 - Fishing and aquaculture & 3296 \\
+    2 & N75 - 75 - Veterinary activities & 2943 \\
+    3 & A02 - 02 - Forestry and logging & 2885 \\
+    4 & Q85 - 85 - Education & 2730 \\
+    5 & V99 - 99 - Activities of extraterritorial organizations and bodies & 2250 \\
+    6 & R86 - 86 - Human health activities & 2161 \\
+    7 & N72 - 72 - Scientific research and development & 2061 \\
+    8 & A01 - 01 - Crop and animal production, hunting and related service activities & 2026 \\
+    9 & U97 - 97 - Activities of households as employers of domestic personnel & 1939 \\
+    10 & L65 - 65 - Insurance, reinsurance and pension funding, except compulsory social security & 1705 \\
+    11 & R87 - 87 - Residential care activities & 1396 \\
+    12 & P84 - 84 - Public administration and defence; compulsory social security & 1142 \\
+    13 & R88 - 88 - Social work activities without accommodation & 957 \\
+    14 & J60 - 60 - Programming, broadcasting, news agency and other content distribution activities & 877 \\
+    15 & N70 - 70 - Activities of head offices; management consultancy activities & 819 \\
+    16 & U98 - 98 - Undifferentiated goods- and services-producing activities of private households for own use & 784 \\
+    17 & N73 - 73 - Activities of advertising, market research and public relations & 782 \\
+    18 & O80 - 80 - Investigation and security activities & 722 \\
+    19 & L64 - 64 - Financial service activities, except insurance and pension funding & 641 \\
+    20 & S90 - 90 - Arts creation and performing arts activities & 624 \\
+    \hline
+    \end{tabular}
+    \caption{Top primary classes --- Zenodo}
+\end{table}
+
+\subsection{Harvard Dataverse}
+
+\begin{itemize}
+    \item Total projects: 12921
+    \item Distinct primary classes observed: 87
+    \item Most common primary class: J60 - 60 - Programming, broadcasting, news agency and other content distribution activities (1269 projects, 9.8\%)
+\end{itemize}
+\textbf{Projects by type}
+\begin{itemize}
+    \item QDA: 71 (0.5\%)
+    \item QD: 6915 (53.5\%)
+    \item Other project: 5625 (43.5\%)
+    \item No project: 310 (2.4\%)
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includesvg[width=\textwidth]{res/by_repository/harvard-dataverse/primary_class_histogram}
+    \caption{Primary class distribution --- Harvard Dataverse}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{r p{10cm} r}
+    \hline
+    \textbf{Rank} & \textbf{Primary Class} & \textbf{Count} \\
+    \hline
+    1 & J60 - 60 - Programming, broadcasting, news agency and other content distribution activities & 1269 \\
+    2 & R86 - 86 - Human health activities & 696 \\
+    3 & A02 - 02 - Forestry and logging & 685 \\
+    4 & P84 - 84 - Public administration and defence; compulsory social security & 540 \\
+    5 & C18 - 18 - Printing and reproduction of recorded media & 515 \\
+    6 & N73 - 73 - Activities of advertising, market research and public relations & 500 \\
+    7 & V99 - 99 - Activities of extraterritorial organizations and bodies & 488 \\
+    8 & J58 - 58 - Publishing activities & 457 \\
+    9 & D35 - 35 - Electricity, gas, steam and air conditioning supply & 422 \\
+    10 & A03 - 03 - Fishing and aquaculture & 404 \\
+    11 & L65 - 65 - Insurance, reinsurance and pension funding, except compulsory social security & 328 \\
+    12 & R87 - 87 - Residential care activities & 295 \\
+    13 & A01 - 01 - Crop and animal production, hunting and related service activities & 263 \\
+    14 & Q85 - 85 - Education & 238 \\
+    15 & N72 - 72 - Scientific research and development & 213 \\
+    16 & S92 - 92 - Gambling and betting activities & 213 \\
+    17 & O80 - 80 - Investigation and security activities & 186 \\
+    18 & H51 - 51 - Air transport & 180 \\
+    19 & M68 - 68 - Real estate activities & 179 \\
+    20 & L64 - 64 - Financial service activities, except insurance and pension funding & 171 \\
+    \hline
+    \end{tabular}
+    \caption{Top primary classes --- Harvard Dataverse}
+\end{table}
+
+\subsection{DANS}
+
+\begin{itemize}
+    \item Total projects: 6973
+    \item Distinct primary classes observed: 85
+    \item Most common primary class: N73 - 73 - Activities of advertising, market research and public relations (573 projects, 8.2\%)
+\end{itemize}
+\textbf{Projects by type}
+\begin{itemize}
+    \item QDA: 22 (0.3\%)
+    \item QD: 5450 (78.2\%)
+    \item Other project: 1496 (21.5\%)
+    \item No project: 5 (0.1\%)
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includesvg[width=\textwidth]{res/by_repository/dans/primary_class_histogram}
+    \caption{Primary class distribution --- DANS}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{r p{10cm} r}
+    \hline
+    \textbf{Rank} & \textbf{Primary Class} & \textbf{Count} \\
+    \hline
+    1 & N73 - 73 - Activities of advertising, market research and public relations & 573 \\
+    2 & V99 - 99 - Activities of extraterritorial organizations and bodies & 457 \\
+    3 & C15 - 15 - Manufacture of leather and related products & 380 \\
+    4 & Q85 - 85 - Education & 360 \\
+    5 & R86 - 86 - Human health activities & 340 \\
+    6 & U98 - 98 - Undifferentiated goods- and services-producing activities of private households for own use & 325 \\
+    7 & S91 - 91 - Library, archives, museum and other cultural activities & 304 \\
+    8 & R88 - 88 - Social work activities without accommodation & 235 \\
+    9 & L65 - 65 - Insurance, reinsurance and pension funding, except compulsory social security & 220 \\
+    10 & O78 - 78 - Employment activities & 205 \\
+    11 & I55 - 55 - Accommodation & 198 \\
+    12 & R87 - 87 - Residential care activities & 190 \\
+    13 & O80 - 80 - Investigation and security activities & 187 \\
+    14 & U97 - 97 - Activities of households as employers of domestic personnel & 183 \\
+    15 & N70 - 70 - Activities of head offices; management consultancy activities & 170 \\
+    16 & S90 - 90 - Arts creation and performing arts activities & 160 \\
+    17 & S93 - 93 - Sports activities and amusement and recreation activities & 158 \\
+    18 & N72 - 72 - Scientific research and development & 132 \\
+    19 & C31 - 31 - Manufacture of furniture & 128 \\
+    20 & C12 - 12 - Manufacture of tobacco products & 122 \\
+    \hline
+    \end{tabular}
+    \caption{Top primary classes --- DANS}
+\end{table}
+
+\subsection{Dryad}
+
+\begin{itemize}
+    \item Total projects: 4652
+    \item Distinct primary classes observed: 86
+    \item Most common primary class: L65 - 65 - Insurance, reinsurance and pension funding, except compulsory social security (381 projects, 8.2\%)
+\end{itemize}
+\textbf{Projects by type}
+\begin{itemize}
+    \item QDA: 35 (0.8\%)
+    \item QD: 2728 (58.6\%)
+    \item Other project: 1318 (28.3\%)
+    \item No project: 571 (12.3\%)
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includesvg[width=\textwidth]{res/by_repository/dryad/primary_class_histogram}
+    \caption{Primary class distribution --- Dryad}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{r p{10cm} r}
+    \hline
+    \textbf{Rank} & \textbf{Primary Class} & \textbf{Count} \\
+    \hline
+    1 & L65 - 65 - Insurance, reinsurance and pension funding, except compulsory social security & 381 \\
+    2 & R86 - 86 - Human health activities & 366 \\
+    3 & P84 - 84 - Public administration and defence; compulsory social security & 266 \\
+    4 & Q85 - 85 - Education & 238 \\
+    5 & R87 - 87 - Residential care activities & 234 \\
+    6 & N73 - 73 - Activities of advertising, market research and public relations & 225 \\
+    7 & U97 - 97 - Activities of households as employers of domestic personnel & 224 \\
+    8 & O78 - 78 - Employment activities & 201 \\
+    9 & A02 - 02 - Forestry and logging & 195 \\
+    10 & A03 - 03 - Fishing and aquaculture & 184 \\
+    11 & R88 - 88 - Social work activities without accommodation & 156 \\
+    12 & J60 - 60 - Programming, broadcasting, news agency and other content distribution activities & 130 \\
+    13 & V99 - 99 - Activities of extraterritorial organizations and bodies & 121 \\
+    14 & T94 - 94 - Activities of membership organizations & 114 \\
+    15 & N72 - 72 - Scientific research and development & 102 \\
+    16 & A01 - 01 - Crop and animal production, hunting and related service activities & 84 \\
+    17 & I56 - 56 - Food and beverage service activities & 78 \\
+    18 & U98 - 98 - Undifferentiated goods- and services-producing activities of private households for own use & 75 \\
+    19 & S91 - 91 - Library, archives, museum and other cultural activities & 62 \\
+    20 & T96 - 96 - Personal service activities & 60 \\
+    \hline
+    \end{tabular}
+    \caption{Top primary classes --- Dryad}
+\end{table}
+
+\subsection{Open Data Uni Halle}
+
+\begin{itemize}
+    \item Total projects: 3372
+    \item Distinct primary classes observed: 87
+    \item Most common primary class: C15 - 15 - Manufacture of leather and related products (650 projects, 19.3\%)
+\end{itemize}
+\textbf{Projects by type}
+\begin{itemize}
+    \item QDA: 0 (0.0\%)
+    \item QD: 979 (29.0\%)
+    \item Other project: 32 (0.9\%)
+    \item No project: 2361 (70.0\%)
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includesvg[width=\textwidth]{res/by_repository/open-data-uni-halle/primary_class_histogram}
+    \caption{Primary class distribution --- Open Data Uni Halle}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{r p{10cm} r}
+    \hline
+    \textbf{Rank} & \textbf{Primary Class} & \textbf{Count} \\
+    \hline
+    1 & C15 - 15 - Manufacture of leather and related products & 650 \\
+    2 & C31 - 31 - Manufacture of furniture & 259 \\
+    3 & C21 - 21 - Manufacture of basic pharmaceutical products and pharmaceutical preparations & 206 \\
+    4 & C12 - 12 - Manufacture of tobacco products & 142 \\
+    5 & A02 - 02 - Forestry and logging & 113 \\
+    6 & C13 - 13 - Manufacture of textiles & 105 \\
+    7 & V99 - 99 - Activities of extraterritorial organizations and bodies & 100 \\
+    8 & C16 - 16 - Manufacture of wood and of products of wood and cork, except furniture; manufacture of articles of straw and plaiting materials & 83 \\
+    9 & C23 - 23 - Manufacture of other non-metallic mineral products & 80 \\
+    10 & N75 - 75 - Veterinary activities & 73 \\
+    11 & S91 - 91 - Library, archives, museum and other cultural activities & 71 \\
+    12 & N72 - 72 - Scientific research and development & 68 \\
+    13 & N70 - 70 - Activities of head offices; management consultancy activities & 59 \\
+    14 & R86 - 86 - Human health activities & 58 \\
+    15 & R87 - 87 - Residential care activities & 56 \\
+    16 & C10 - 10 - Manufacture of food products & 54 \\
+    17 & P84 - 84 - Public administration and defence; compulsory social security & 47 \\
+    18 & C24 - 24 - Manufacture of basic metals & 43 \\
+    19 & N69 - 69 - Legal and accounting activities & 43 \\
+    20 & C28 - 28 - Manufacture of machinery and equipment n.e.c. & 42 \\
+    \hline
+    \end{tabular}
+    \caption{Top primary classes --- Open Data Uni Halle}
+\end{table}
+
+\subsection{Finnish Social Science Data Archive}
+
+\begin{itemize}
+    \item Total projects: 2969
+    \item Distinct primary classes observed: 68
+    \item Most common primary class: O78 - 78 - Employment activities (956 projects, 32.2\%)
+\end{itemize}
+\textbf{Projects by type}
+\begin{itemize}
+    \item QDA: 0 (0.0\%)
+    \item QD: 58 (2.0\%)
+    \item Other project: 868 (29.2\%)
+    \item No project: 2043 (68.8\%)
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includesvg[width=\textwidth]{res/by_repository/finnish-social-science-data-archive/primary_class_histogram}
+    \caption{Primary class distribution --- Finnish Social Science Data Archive}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{r p{10cm} r}
+    \hline
+    \textbf{Rank} & \textbf{Primary Class} & \textbf{Count} \\
+    \hline
+    1 & O78 - 78 - Employment activities & 956 \\
+    2 & I56 - 56 - Food and beverage service activities & 358 \\
+    3 & R86 - 86 - Human health activities & 158 \\
+    4 & T94 - 94 - Activities of membership organizations & 137 \\
+    5 & O82 - 82 - Office administrative, office support and other business support activities & 89 \\
+    6 & A03 - 03 - Fishing and aquaculture & 82 \\
+    7 & C15 - 15 - Manufacture of leather and related products & 74 \\
+    8 & O79 - 79 - Travel agency, tour operator, and other travel related activities & 66 \\
+    9 & P84 - 84 - Public administration and defence; compulsory social security & 63 \\
+    10 & L65 - 65 - Insurance, reinsurance and pension funding, except compulsory social security & 58 \\
+    11 & O80 - 80 - Investigation and security activities & 58 \\
+    12 & R88 - 88 - Social work activities without accommodation & 58 \\
+    13 & Q85 - 85 - Education & 57 \\
+    14 & R87 - 87 - Residential care activities & 54 \\
+    15 & I55 - 55 - Accommodation & 53 \\
+    16 & T96 - 96 - Personal service activities & 53 \\
+    17 & N73 - 73 - Activities of advertising, market research and public relations & 49 \\
+    18 & U98 - 98 - Undifferentiated goods- and services-producing activities of private households for own use & 38 \\
+    19 & C12 - 12 - Manufacture of tobacco products & 36 \\
+    20 & J59 - 59 - Motion picture, video and television programme production, sound recording and music publishing activities & 34 \\
+    \hline
+    \end{tabular}
+    \caption{Top primary classes --- Finnish Social Science Data Archive}
+\end{table}
+
+\subsection{UK Data Service}
+
+\begin{itemize}
+    \item Total projects: 1530
+    \item Distinct primary classes observed: 79
+    \item Most common primary class: L65 - 65 - Insurance, reinsurance and pension funding, except compulsory social security (279 projects, 18.2\%)
+\end{itemize}
+\textbf{Projects by type}
+\begin{itemize}
+    \item QDA: 4 (0.3\%)
+    \item QD: 430 (28.1\%)
+    \item Other project: 53 (3.5\%)
+    \item No project: 1043 (68.2\%)
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includesvg[width=\textwidth]{res/by_repository/uk-data-service/primary_class_histogram}
+    \caption{Primary class distribution --- UK Data Service}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{r p{10cm} r}
+    \hline
+    \textbf{Rank} & \textbf{Primary Class} & \textbf{Count} \\
+    \hline
+    1 & L65 - 65 - Insurance, reinsurance and pension funding, except compulsory social security & 279 \\
+    2 & U97 - 97 - Activities of households as employers of domestic personnel & 233 \\
+    3 & R86 - 86 - Human health activities & 96 \\
+    4 & R88 - 88 - Social work activities without accommodation & 90 \\
+    5 & R87 - 87 - Residential care activities & 89 \\
+    6 & Q85 - 85 - Education & 75 \\
+    7 & P84 - 84 - Public administration and defence; compulsory social security & 60 \\
+    8 & A02 - 02 - Forestry and logging & 43 \\
+    9 & L64 - 64 - Financial service activities, except insurance and pension funding & 36 \\
+    10 & U98 - 98 - Undifferentiated goods- and services-producing activities of private households for own use & 35 \\
+    11 & I55 - 55 - Accommodation & 35 \\
+    12 & J60 - 60 - Programming, broadcasting, news agency and other content distribution activities & 32 \\
+    13 & N72 - 72 - Scientific research and development & 23 \\
+    14 & O80 - 80 - Investigation and security activities & 23 \\
+    15 & V99 - 99 - Activities of extraterritorial organizations and bodies & 22 \\
+    16 & O78 - 78 - Employment activities & 20 \\
+    17 & S91 - 91 - Library, archives, museum and other cultural activities & 19 \\
+    18 & N69 - 69 - Legal and accounting activities & 16 \\
+    19 & H53 - 53 - Postal and courier activities & 15 \\
+    20 & O81 - 81 - Services to buildings and landscape activities & 15 \\
+    \hline
+    \end{tabular}
+    \caption{Top primary classes --- UK Data Service}
+\end{table}
+
+\subsection{Syracuse Qualitative Data Repository}
+
+\begin{itemize}
+    \item Total projects: 1286
+    \item Distinct primary classes observed: 79
+    \item Most common primary class: K63 - 63 - Computing infrastructure, data processing, hosting, and other information service activities (149 projects, 11.6\%)
+\end{itemize}
+\textbf{Projects by type}
+\begin{itemize}
+    \item QDA: 43 (3.3\%)
+    \item QD: 1108 (86.2\%)
+    \item Other project: 120 (9.3\%)
+    \item No project: 15 (1.2\%)
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includesvg[width=\textwidth]{res/by_repository/syracuse-qualitative-data-repository/primary_class_histogram}
+    \caption{Primary class distribution --- Syracuse Qualitative Data Repository}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{r p{10cm} r}
+    \hline
+    \textbf{Rank} & \textbf{Primary Class} & \textbf{Count} \\
+    \hline
+    1 & K63 - 63 - Computing infrastructure, data processing, hosting, and other information service activities & 149 \\
+    2 & R87 - 87 - Residential care activities & 94 \\
+    3 & R86 - 86 - Human health activities & 89 \\
+    4 & A03 - 03 - Fishing and aquaculture & 72 \\
+    5 & L65 - 65 - Insurance, reinsurance and pension funding, except compulsory social security & 58 \\
+    6 & V99 - 99 - Activities of extraterritorial organizations and bodies & 56 \\
+    7 & N72 - 72 - Scientific research and development & 52 \\
+    8 & N69 - 69 - Legal and accounting activities & 52 \\
+    9 & A02 - 02 - Forestry and logging & 48 \\
+    10 & H53 - 53 - Postal and courier activities & 44 \\
+    11 & U97 - 97 - Activities of households as employers of domestic personnel & 42 \\
+    12 & P84 - 84 - Public administration and defence; compulsory social security & 39 \\
+    13 & Q85 - 85 - Education & 34 \\
+    14 & O79 - 79 - Travel agency, tour operator, and other travel related activities & 34 \\
+    15 & J60 - 60 - Programming, broadcasting, news agency and other content distribution activities & 28 \\
+    16 & G47 - 47 - Retail trade & 23 \\
+    17 & T96 - 96 - Personal service activities & 20 \\
+    18 & S92 - 92 - Gambling and betting activities & 20 \\
+    19 & A01 - 01 - Crop and animal production, hunting and related service activities & 18 \\
+    20 & N73 - 73 - Activities of advertising, market research and public relations & 17 \\
+    \hline
+    \end{tabular}
+    \caption{Top primary classes --- Syracuse Qualitative Data Repository}
+\end{table}
+
+\subsection{SIKT}
+
+\begin{itemize}
+    \item Total projects: 950
+    \item Distinct primary classes observed: 53
+    \item Most common primary class: L65 - 65 - Insurance, reinsurance and pension funding, except compulsory social security (206 projects, 21.7\%)
+\end{itemize}
+\textbf{Projects by type}
+\begin{itemize}
+    \item QDA: 0 (0.0\%)
+    \item QD: 13 (1.4\%)
+    \item Other project: 937 (98.6\%)
+    \item No project: 0 (0.0\%)
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includesvg[width=\textwidth]{res/by_repository/sikt/primary_class_histogram}
+    \caption{Primary class distribution --- SIKT}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{r p{10cm} r}
+    \hline
+    \textbf{Rank} & \textbf{Primary Class} & \textbf{Count} \\
+    \hline
+    1 & L65 - 65 - Insurance, reinsurance and pension funding, except compulsory social security & 206 \\
+    2 & U97 - 97 - Activities of households as employers of domestic personnel & 186 \\
+    3 & O78 - 78 - Employment activities & 118 \\
+    4 & Q85 - 85 - Education & 62 \\
+    5 & R87 - 87 - Residential care activities & 54 \\
+    6 & U98 - 98 - Undifferentiated goods- and services-producing activities of private households for own use & 44 \\
+    7 & R86 - 86 - Human health activities & 38 \\
+    8 & J60 - 60 - Programming, broadcasting, news agency and other content distribution activities & 29 \\
+    9 & N73 - 73 - Activities of advertising, market research and public relations & 26 \\
+    10 & R88 - 88 - Social work activities without accommodation & 16 \\
+    11 & P84 - 84 - Public administration and defence; compulsory social security & 14 \\
+    12 & O80 - 80 - Investigation and security activities & 11 \\
+    13 & N72 - 72 - Scientific research and development & 11 \\
+    14 & A02 - 02 - Forestry and logging & 10 \\
+    15 & J59 - 59 - Motion picture, video and television programme production, sound recording and music publishing activities & 10 \\
+    16 & I55 - 55 - Accommodation & 9 \\
+    17 & S93 - 93 - Sports activities and amusement and recreation activities & 9 \\
+    18 & N70 - 70 - Activities of head offices; management consultancy activities & 8 \\
+    19 & O81 - 81 - Services to buildings and landscape activities & 8 \\
+    20 & V99 - 99 - Activities of extraterritorial organizations and bodies & 8 \\
+    \hline
+    \end{tabular}
+    \caption{Top primary classes --- SIKT}
+\end{table}
+
+\subsection{CESSDA}
+
+\begin{itemize}
+    \item Total projects: 648
+    \item Distinct primary classes observed: 62
+    \item Most common primary class: R86 - 86 - Human health activities (74 projects, 11.4\%)
+\end{itemize}
+\textbf{Projects by type}
+\begin{itemize}
+    \item QDA: 0 (0.0\%)
+    \item QD: 647 (99.8\%)
+    \item Other project: 1 (0.2\%)
+    \item No project: 0 (0.0\%)
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includesvg[width=\textwidth]{res/by_repository/cessda/primary_class_histogram}
+    \caption{Primary class distribution --- CESSDA}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{r p{10cm} r}
+    \hline
+    \textbf{Rank} & \textbf{Primary Class} & \textbf{Count} \\
+    \hline
+    1 & R86 - 86 - Human health activities & 74 \\
+    2 & N73 - 73 - Activities of advertising, market research and public relations & 72 \\
+    3 & L65 - 65 - Insurance, reinsurance and pension funding, except compulsory social security & 57 \\
+    4 & U97 - 97 - Activities of households as employers of domestic personnel & 38 \\
+    5 & Q85 - 85 - Education & 36 \\
+    6 & P84 - 84 - Public administration and defence; compulsory social security & 33 \\
+    7 & O78 - 78 - Employment activities & 32 \\
+    8 & R88 - 88 - Social work activities without accommodation & 31 \\
+    9 & R87 - 87 - Residential care activities & 28 \\
+    10 & V99 - 99 - Activities of extraterritorial organizations and bodies & 24 \\
+    11 & N70 - 70 - Activities of head offices; management consultancy activities & 19 \\
+    12 & T94 - 94 - Activities of membership organizations & 14 \\
+    13 & J60 - 60 - Programming, broadcasting, news agency and other content distribution activities & 13 \\
+    14 & U98 - 98 - Undifferentiated goods- and services-producing activities of private households for own use & 13 \\
+    15 & O80 - 80 - Investigation and security activities & 11 \\
+    16 & I56 - 56 - Food and beverage service activities & 10 \\
+    17 & I55 - 55 - Accommodation & 10 \\
+    18 & N72 - 72 - Scientific research and development & 10 \\
+    19 & C15 - 15 - Manufacture of leather and related products & 10 \\
+    20 & T96 - 96 - Personal service activities & 8 \\
+    \hline
+    \end{tabular}
+    \caption{Top primary classes --- CESSDA}
+\end{table}
+
+\subsection{ICPSR}
+
+\begin{itemize}
+    \item Total projects: 530
+    \item Distinct primary classes observed: 57
+    \item Most common primary class: R87 - 87 - Residential care activities (94 projects, 17.7\%)
+\end{itemize}
+\textbf{Projects by type}
+\begin{itemize}
+    \item QDA: 1 (0.2\%)
+    \item QD: 140 (26.4\%)
+    \item Other project: 167 (31.5\%)
+    \item No project: 222 (41.9\%)
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includesvg[width=\textwidth]{res/by_repository/icpsr/primary_class_histogram}
+    \caption{Primary class distribution --- ICPSR}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{r p{10cm} r}
+    \hline
+    \textbf{Rank} & \textbf{Primary Class} & \textbf{Count} \\
+    \hline
+    1 & R87 - 87 - Residential care activities & 94 \\
+    2 & O80 - 80 - Investigation and security activities & 79 \\
+    3 & Q85 - 85 - Education & 45 \\
+    4 & R86 - 86 - Human health activities & 45 \\
+    5 & V99 - 99 - Activities of extraterritorial organizations and bodies & 27 \\
+    6 & P84 - 84 - Public administration and defence; compulsory social security & 22 \\
+    7 & L65 - 65 - Insurance, reinsurance and pension funding, except compulsory social security & 15 \\
+    8 & L64 - 64 - Financial service activities, except insurance and pension funding & 15 \\
+    9 & O78 - 78 - Employment activities & 14 \\
+    10 & N72 - 72 - Scientific research and development & 12 \\
+    11 & J60 - 60 - Programming, broadcasting, news agency and other content distribution activities & 11 \\
+    12 & T96 - 96 - Personal service activities & 10 \\
+    13 & O77 - 77 - Rental and leasing activities & 10 \\
+    14 & E38 - 38 - Waste collection, treatment and disposal, and recovery activities & 7 \\
+    15 & U97 - 97 - Activities of households as employers of domestic personnel & 7 \\
+    16 & C12 - 12 - Manufacture of tobacco products & 7 \\
+    17 & J58 - 58 - Publishing activities & 6 \\
+    18 & R88 - 88 - Social work activities without accommodation & 6 \\
+    19 & G47 - 47 - Retail trade & 6 \\
+    20 & S90 - 90 - Arts creation and performing arts activities & 6 \\
+    \hline
+    \end{tabular}
+    \caption{Top primary classes --- ICPSR}
+\end{table}
+
+\subsection{ADA}
+
+\begin{itemize}
+    \item Total projects: 472
+    \item Distinct primary classes observed: 58
+    \item Most common primary class: R86 - 86 - Human health activities (100 projects, 21.2\%)
+\end{itemize}
+\textbf{Projects by type}
+\begin{itemize}
+    \item QDA: 45 (9.5\%)
+    \item QD: 284 (60.2\%)
+    \item Other project: 143 (30.3\%)
+    \item No project: 0 (0.0\%)
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includesvg[width=\textwidth]{res/by_repository/ada/primary_class_histogram}
+    \caption{Primary class distribution --- ADA}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{r p{10cm} r}
+    \hline
+    \textbf{Rank} & \textbf{Primary Class} & \textbf{Count} \\
+    \hline
+    1 & R86 - 86 - Human health activities & 100 \\
+    2 & R87 - 87 - Residential care activities & 92 \\
+    3 & Q85 - 85 - Education & 32 \\
+    4 & N72 - 72 - Scientific research and development & 32 \\
+    5 & R88 - 88 - Social work activities without accommodation & 22 \\
+    6 & N70 - 70 - Activities of head offices; management consultancy activities & 16 \\
+    7 & T96 - 96 - Personal service activities & 12 \\
+    8 & I56 - 56 - Food and beverage service activities & 10 \\
+    9 & A03 - 03 - Fishing and aquaculture & 9 \\
+    10 & V99 - 99 - Activities of extraterritorial organizations and bodies & 9 \\
+    11 & S93 - 93 - Sports activities and amusement and recreation activities & 8 \\
+    12 & O82 - 82 - Office administrative, office support and other business support activities & 8 \\
+    13 & O80 - 80 - Investigation and security activities & 7 \\
+    14 & O79 - 79 - Travel agency, tour operator, and other travel related activities & 7 \\
+    15 & J60 - 60 - Programming, broadcasting, news agency and other content distribution activities & 6 \\
+    16 & C28 - 28 - Manufacture of machinery and equipment n.e.c. & 5 \\
+    17 & E39 - 39 - Remediation and other waste management service activities & 5 \\
+    18 & S90 - 90 - Arts creation and performing arts activities & 4 \\
+    19 & P84 - 84 - Public administration and defence; compulsory social security & 4 \\
+    20 & O78 - 78 - Employment activities & 4 \\
+    \hline
+    \end{tabular}
+    \caption{Top primary classes --- ADA}
+\end{table}
+
+\subsection{Harvard Murray Archive}
+
+\begin{itemize}
+    \item Total projects: 422
+    \item Distinct primary classes observed: 60
+    \item Most common primary class: R87 - 87 - Residential care activities (50 projects, 11.8\%)
+\end{itemize}
+\textbf{Projects by type}
+\begin{itemize}
+    \item QDA: 39 (9.2\%)
+    \item QD: 265 (62.8\%)
+    \item Other project: 87 (20.6\%)
+    \item No project: 31 (7.3\%)
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includesvg[width=\textwidth]{res/by_repository/harvard-murray-archive/primary_class_histogram}
+    \caption{Primary class distribution --- Harvard Murray Archive}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{r p{10cm} r}
+    \hline
+    \textbf{Rank} & \textbf{Primary Class} & \textbf{Count} \\
+    \hline
+    1 & R87 - 87 - Residential care activities & 50 \\
+    2 & V99 - 99 - Activities of extraterritorial organizations and bodies & 34 \\
+    3 & R86 - 86 - Human health activities & 33 \\
+    4 & N72 - 72 - Scientific research and development & 32 \\
+    5 & Q85 - 85 - Education & 23 \\
+    6 & A01 - 01 - Crop and animal production, hunting and related service activities & 22 \\
+    7 & J60 - 60 - Programming, broadcasting, news agency and other content distribution activities & 18 \\
+    8 & P84 - 84 - Public administration and defence; compulsory social security & 16 \\
+    9 & N73 - 73 - Activities of advertising, market research and public relations & 13 \\
+    10 & A03 - 03 - Fishing and aquaculture & 13 \\
+    11 & R88 - 88 - Social work activities without accommodation & 11 \\
+    12 & O80 - 80 - Investigation and security activities & 9 \\
+    13 & N75 - 75 - Veterinary activities & 9 \\
+    14 & L65 - 65 - Insurance, reinsurance and pension funding, except compulsory social security & 8 \\
+    15 & A02 - 02 - Forestry and logging & 8 \\
+    16 & N70 - 70 - Activities of head offices; management consultancy activities & 7 \\
+    17 & I55 - 55 - Accommodation & 7 \\
+    18 & O82 - 82 - Office administrative, office support and other business support activities & 6 \\
+    19 & J58 - 58 - Publishing activities & 6 \\
+    20 & T96 - 96 - Personal service activities & 6 \\
+    \hline
+    \end{tabular}
+    \caption{Top primary classes --- Harvard Murray Archive}
+\end{table}
+
+\subsection{DataverseNO}
+
+\begin{itemize}
+    \item Total projects: 414
+    \item Distinct primary classes observed: 76
+    \item Most common primary class: R86 - 86 - Human health activities (30 projects, 7.2\%)
+\end{itemize}
+\textbf{Projects by type}
+\begin{itemize}
+    \item QDA: 0 (0.0\%)
+    \item QD: 103 (24.9\%)
+    \item Other project: 311 (75.1\%)
+    \item No project: 0 (0.0\%)
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includesvg[width=\textwidth]{res/by_repository/dataverse-no/primary_class_histogram}
+    \caption{Primary class distribution --- DataverseNO}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{r p{10cm} r}
+    \hline
+    \textbf{Rank} & \textbf{Primary Class} & \textbf{Count} \\
+    \hline
+    1 & R86 - 86 - Human health activities & 30 \\
+    2 & R87 - 87 - Residential care activities & 20 \\
+    3 & V99 - 99 - Activities of extraterritorial organizations and bodies & 20 \\
+    4 & N71 - 71 - Architectural and engineering activities; technical testing and analysis & 19 \\
+    5 & J60 - 60 - Programming, broadcasting, news agency and other content distribution activities & 19 \\
+    6 & A02 - 02 - Forestry and logging & 15 \\
+    7 & N72 - 72 - Scientific research and development & 11 \\
+    8 & N75 - 75 - Veterinary activities & 11 \\
+    9 & Q85 - 85 - Education & 10 \\
+    10 & P84 - 84 - Public administration and defence; compulsory social security & 10 \\
+    11 & U97 - 97 - Activities of households as employers of domestic personnel & 10 \\
+    12 & K62 - 62 - Computer programming, consultancy and related activities & 9 \\
+    13 & C16 - 16 - Manufacture of wood and of products of wood and cork, except furniture; manufacture of articles of straw and plaiting materials & 9 \\
+    14 & S91 - 91 - Library, archives, museum and other cultural activities & 9 \\
+    15 & A03 - 03 - Fishing and aquaculture & 8 \\
+    16 & L65 - 65 - Insurance, reinsurance and pension funding, except compulsory social security & 8 \\
+    17 & N74 - 74 - Other professional, scientific and technical activities & 7 \\
+    18 & O82 - 82 - Office administrative, office support and other business support activities & 7 \\
+    19 & C18 - 18 - Printing and reproduction of recorded media & 7 \\
+    20 & F43 - 43 - Specialized construction activities & 7 \\
+    \hline
+    \end{tabular}
+    \caption{Top primary classes --- DataverseNO}
+\end{table}
+
+\subsection{Columbia Oral History Archive}
+
+\begin{itemize}
+    \item Total projects: 327
+    \item Distinct primary classes observed: 49
+    \item Most common primary class: R86 - 86 - Human health activities (53 projects, 16.2\%)
+\end{itemize}
+\textbf{Projects by type}
+\begin{itemize}
+    \item QDA: 2 (0.6\%)
+    \item QD: 325 (99.4\%)
+    \item Other project: 0 (0.0\%)
+    \item No project: 0 (0.0\%)
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includesvg[width=\textwidth]{res/by_repository/columbia-oral-history-archive/primary_class_histogram}
+    \caption{Primary class distribution --- Columbia Oral History Archive}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{r p{10cm} r}
+    \hline
+    \textbf{Rank} & \textbf{Primary Class} & \textbf{Count} \\
+    \hline
+    1 & R86 - 86 - Human health activities & 53 \\
+    2 & S91 - 91 - Library, archives, museum and other cultural activities & 44 \\
+    3 & J59 - 59 - Motion picture, video and television programme production, sound recording and music publishing activities & 31 \\
+    4 & C18 - 18 - Printing and reproduction of recorded media & 28 \\
+    5 & R87 - 87 - Residential care activities & 18 \\
+    6 & C23 - 23 - Manufacture of other non-metallic mineral products & 17 \\
+    7 & P84 - 84 - Public administration and defence; compulsory social security & 16 \\
+    8 & J60 - 60 - Programming, broadcasting, news agency and other content distribution activities & 14 \\
+    9 & Q85 - 85 - Education & 11 \\
+    10 & N73 - 73 - Activities of advertising, market research and public relations & 10 \\
+    11 & N74 - 74 - Other professional, scientific and technical activities & 9 \\
+    12 & C31 - 31 - Manufacture of furniture & 7 \\
+    13 & N72 - 72 - Scientific research and development & 7 \\
+    14 & S90 - 90 - Arts creation and performing arts activities & 5 \\
+    15 & O78 - 78 - Employment activities & 5 \\
+    16 & V99 - 99 - Activities of extraterritorial organizations and bodies & 4 \\
+    17 & U97 - 97 - Activities of households as employers of domestic personnel & 4 \\
+    18 & C24 - 24 - Manufacture of basic metals & 3 \\
+    19 & C19 - 19 - Manufacture of coke and refined petroleum products & 3 \\
+    20 & L65 - 65 - Insurance, reinsurance and pension funding, except compulsory social security & 3 \\
+    \hline
+    \end{tabular}
+    \caption{Top primary classes --- Columbia Oral History Archive}
+\end{table}
+
+\subsection{HIHSN}
+
+\begin{itemize}
+    \item Total projects: 322
+    \item Distinct primary classes observed: 46
+    \item Most common primary class: R86 - 86 - Human health activities (86 projects, 26.7\%)
+\end{itemize}
+\textbf{Projects by type}
+\begin{itemize}
+    \item QDA: 0 (0.0\%)
+    \item QD: 296 (91.9\%)
+    \item Other project: 22 (6.8\%)
+    \item No project: 4 (1.2\%)
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includesvg[width=\textwidth]{res/by_repository/hihsn/primary_class_histogram}
+    \caption{Primary class distribution --- HIHSN}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{r p{10cm} r}
+    \hline
+    \textbf{Rank} & \textbf{Primary Class} & \textbf{Count} \\
+    \hline
+    1 & R86 - 86 - Human health activities & 86 \\
+    2 & U97 - 97 - Activities of households as employers of domestic personnel & 31 \\
+    3 & R87 - 87 - Residential care activities & 25 \\
+    4 & Q85 - 85 - Education & 17 \\
+    5 & R88 - 88 - Social work activities without accommodation & 16 \\
+    6 & A01 - 01 - Crop and animal production, hunting and related service activities & 16 \\
+    7 & N70 - 70 - Activities of head offices; management consultancy activities & 16 \\
+    8 & U98 - 98 - Undifferentiated goods- and services-producing activities of private households for own use & 12 \\
+    9 & V99 - 99 - Activities of extraterritorial organizations and bodies & 7 \\
+    10 & A02 - 02 - Forestry and logging & 7 \\
+    11 & L65 - 65 - Insurance, reinsurance and pension funding, except compulsory social security & 7 \\
+    12 & L64 - 64 - Financial service activities, except insurance and pension funding & 7 \\
+    13 & P84 - 84 - Public administration and defence; compulsory social security & 6 \\
+    14 & A03 - 03 - Fishing and aquaculture & 6 \\
+    15 & O81 - 81 - Services to buildings and landscape activities & 5 \\
+    16 & O78 - 78 - Employment activities & 4 \\
+    17 & C28 - 28 - Manufacture of machinery and equipment n.e.c. & 4 \\
+    18 & I56 - 56 - Food and beverage service activities & 4 \\
+    19 & F41 - 41 - Construction of residential and non-residential buildings & 4 \\
+    20 & O79 - 79 - Travel agency, tour operator, and other travel related activities & 3 \\
+    \hline
+    \end{tabular}
+    \caption{Top primary classes --- HIHSN}
+\end{table}
+
+\subsection{SADA}
+
+\begin{itemize}
+    \item Total projects: 225
+    \item Distinct primary classes observed: 45
+    \item Most common primary class: U97 - 97 - Activities of households as employers of domestic personnel (30 projects, 13.3\%)
+\end{itemize}
+\textbf{Projects by type}
+\begin{itemize}
+    \item QDA: 0 (0.0\%)
+    \item QD: 223 (99.1\%)
+    \item Other project: 2 (0.9\%)
+    \item No project: 0 (0.0\%)
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includesvg[width=\textwidth]{res/by_repository/sada/primary_class_histogram}
+    \caption{Primary class distribution --- SADA}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{r p{10cm} r}
+    \hline
+    \textbf{Rank} & \textbf{Primary Class} & \textbf{Count} \\
+    \hline
+    1 & U97 - 97 - Activities of households as employers of domestic personnel & 30 \\
+    2 & R86 - 86 - Human health activities & 20 \\
+    3 & J59 - 59 - Motion picture, video and television programme production, sound recording and music publishing activities & 19 \\
+    4 & O78 - 78 - Employment activities & 14 \\
+    5 & R87 - 87 - Residential care activities & 14 \\
+    6 & A02 - 02 - Forestry and logging & 12 \\
+    7 & P84 - 84 - Public administration and defence; compulsory social security & 10 \\
+    8 & U98 - 98 - Undifferentiated goods- and services-producing activities of private households for own use & 9 \\
+    9 & N73 - 73 - Activities of advertising, market research and public relations & 6 \\
+    10 & C12 - 12 - Manufacture of tobacco products & 6 \\
+    11 & K62 - 62 - Computer programming, consultancy and related activities & 6 \\
+    12 & N70 - 70 - Activities of head offices; management consultancy activities & 6 \\
+    13 & L65 - 65 - Insurance, reinsurance and pension funding, except compulsory social security & 6 \\
+    14 & R88 - 88 - Social work activities without accommodation & 6 \\
+    15 & D35 - 35 - Electricity, gas, steam and air conditioning supply & 5 \\
+    16 & M68 - 68 - Real estate activities & 5 \\
+    17 & O80 - 80 - Investigation and security activities & 4 \\
+    18 & A03 - 03 - Fishing and aquaculture & 3 \\
+    19 & A01 - 01 - Crop and animal production, hunting and related service activities & 3 \\
+    20 & I55 - 55 - Accommodation & 3 \\
+    \hline
+    \end{tabular}
+    \caption{Top primary classes --- SADA}
+\end{table}
+
+\subsection{N/A}
+
+\begin{itemize}
+    \item Total projects: 125
+    \item Distinct primary classes observed: 47
+    \item Most common primary class: J60 - 60 - Programming, broadcasting, news agency and other content distribution activities (13 projects, 10.4\%)
+\end{itemize}
+\textbf{Projects by type}
+\begin{itemize}
+    \item QDA: 8 (6.4\%)
+    \item QD: 64 (51.2\%)
+    \item Other project: 53 (42.4\%)
+    \item No project: 0 (0.0\%)
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includesvg[width=\textwidth]{res/by_repository/n-a/primary_class_histogram}
+    \caption{Primary class distribution --- N/A}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{r p{10cm} r}
+    \hline
+    \textbf{Rank} & \textbf{Primary Class} & \textbf{Count} \\
+    \hline
+    1 & J60 - 60 - Programming, broadcasting, news agency and other content distribution activities & 13 \\
+    2 & R86 - 86 - Human health activities & 12 \\
+    3 & V99 - 99 - Activities of extraterritorial organizations and bodies & 8 \\
+    4 & K62 - 62 - Computer programming, consultancy and related activities & 7 \\
+    5 & C21 - 21 - Manufacture of basic pharmaceutical products and pharmaceutical preparations & 6 \\
+    6 & A02 - 02 - Forestry and logging & 5 \\
+    7 & N70 - 70 - Activities of head offices; management consultancy activities & 5 \\
+    8 & Q85 - 85 - Education & 4 \\
+    9 & R87 - 87 - Residential care activities & 4 \\
+    10 & L65 - 65 - Insurance, reinsurance and pension funding, except compulsory social security & 4 \\
+    11 & N72 - 72 - Scientific research and development & 4 \\
+    12 & J58 - 58 - Publishing activities & 4 \\
+    13 & C29 - 29 - Manufacture of motor vehicles, trailers and semi-trailers & 3 \\
+    14 & F42 - 42 - Civil engineering & 3 \\
+    15 & N73 - 73 - Activities of advertising, market research and public relations & 2 \\
+    16 & O81 - 81 - Services to buildings and landscape activities & 2 \\
+    17 & T94 - 94 - Activities of membership organizations & 2 \\
+    18 & O82 - 82 - Office administrative, office support and other business support activities & 2 \\
+    19 & F41 - 41 - Construction of residential and non-residential buildings & 2 \\
+    20 & D35 - 35 - Electricity, gas, steam and air conditioning supply & 2 \\
+    \hline
+    \end{tabular}
+    \caption{Top primary classes --- N/A}
+\end{table}
+
+\subsection{AUSSDA}
+
+\begin{itemize}
+    \item Total projects: 94
+    \item Distinct primary classes observed: 31
+    \item Most common primary class: P84 - 84 - Public administration and defence; compulsory social security (12 projects, 12.8\%)
+\end{itemize}
+\textbf{Projects by type}
+\begin{itemize}
+    \item QDA: 0 (0.0\%)
+    \item QD: 89 (94.7\%)
+    \item Other project: 2 (2.1\%)
+    \item No project: 3 (3.2\%)
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includesvg[width=\textwidth]{res/by_repository/aussda/primary_class_histogram}
+    \caption{Primary class distribution --- AUSSDA}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{r p{10cm} r}
+    \hline
+    \textbf{Rank} & \textbf{Primary Class} & \textbf{Count} \\
+    \hline
+    1 & P84 - 84 - Public administration and defence; compulsory social security & 12 \\
+    2 & N73 - 73 - Activities of advertising, market research and public relations & 9 \\
+    3 & J60 - 60 - Programming, broadcasting, news agency and other content distribution activities & 7 \\
+    4 & Q85 - 85 - Education & 7 \\
+    5 & L65 - 65 - Insurance, reinsurance and pension funding, except compulsory social security & 7 \\
+    6 & L64 - 64 - Financial service activities, except insurance and pension funding & 5 \\
+    7 & N72 - 72 - Scientific research and development & 4 \\
+    8 & S91 - 91 - Library, archives, museum and other cultural activities & 4 \\
+    9 & C31 - 31 - Manufacture of furniture & 4 \\
+    10 & C10 - 10 - Manufacture of food products & 3 \\
+    11 & U97 - 97 - Activities of households as employers of domestic personnel & 3 \\
+    12 & A02 - 02 - Forestry and logging & 3 \\
+    13 & O78 - 78 - Employment activities & 2 \\
+    14 & R87 - 87 - Residential care activities & 2 \\
+    15 & I55 - 55 - Accommodation & 2 \\
+    16 & U98 - 98 - Undifferentiated goods- and services-producing activities of private households for own use & 2 \\
+    17 & G47 - 47 - Retail trade & 2 \\
+    18 & C28 - 28 - Manufacture of machinery and equipment n.e.c. & 2 \\
+    19 & T96 - 96 - Personal service activities & 2 \\
+    20 & N70 - 70 - Activities of head offices; management consultancy activities & 1 \\
+    \hline
+    \end{tabular}
+    \caption{Top primary classes --- AUSSDA}
+\end{table}
