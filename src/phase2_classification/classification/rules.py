@@ -1,12 +1,16 @@
-QDA_EXTENSIONS = {
-    "qdpx",
-    "nvp", "nvpx", "nvapp",
-    "atlproj", "hpr7", "hprx",
-    "mx20", "mx22", "mx23", "mx24",
-    "qda", "qdp",
-    "tra",
-    "f4x", "f4p",
-}
+import json
+import os
+
+_EXTENSIONS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "qda_file_extensions.json")
+
+
+def _load_qda_extensions(path=_EXTENSIONS_PATH):
+    with open(path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    return {ext.strip().lower().lstrip(".") for exts in data.values() for ext in exts}
+
+
+QDA_EXTENSIONS = _load_qda_extensions()
 
 PRIMARY_DATA_EXTENSIONS = {
     "docx", "doc", "txt", "pdf", "rtf",
