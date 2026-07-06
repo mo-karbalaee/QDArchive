@@ -1,10 +1,14 @@
 {
-  "Quirkos": [".qpd"],
+  "Quirkos": [".qpd", ".qrk"],
   "f4analyse": [".f4p"],
-  "QDA Miner": [".ppj", ".pprj", ".qlt"],
+  "QDA Miner": [".ppj", ".pprj", ".qlt", ".qdp", ".wpj"],
   "QDAcity": [".qdpx", ".qdc"],
   "Dedoose": [],
-  "ATLAS.ti": [".atlasproj", ".hpr7"],
+  "ATLAS.ti": [".atlasproj", ".hpr7", ".atlproj", ".atlpac", ".hpr6", ".hprx", ".hprm"],
+  "RQDA": [".rqda"],
+  "Transana": [".tra"],
+  "QualCoder": [".qda"],
+  "HyperRESEARCH": [".hs4", ".hs2", ".hs4z", ".hsz"],
   "NVivo": [".nvp", ".nvpx"],
   "MaxQDA": [
     ".mqda",

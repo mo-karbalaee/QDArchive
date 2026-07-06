@@ -47,6 +47,7 @@ file_id,project_id,file_name,file_type
 152655,5731,07 Dibbets_20111111_video.MOD,mod
 152657,5731,01 Shortest_Day_20111111_video.MOD,mod
 152665,5731,03 Shorest_Day_20111111_video.MOD,mod
+153761,5836,Longitudinaal fietsen met tegenwind 16-2.atlproj,atlproj
 163114,5997,Schouten_20190612_video 1-3.MOD,mod
 163115,5997,Schouten_20190612_video 2-3.MOD,mod
 163119,5997,Schouten_20190612_video 3-3.MOD,mod
@@ -76,6 +77,7 @@ file_id,project_id,file_name,file_type
 211058,8176,bigdomPlusLCMAPS.mod,mod
 211078,8176,compfrc.mod,mod
 211434,8176,explicitspf.mod,mod
+222703,8380,PHD intercultural Bible reading forgiveness Export.atlproj,atlproj
 225668,8510,20160727PBdata.atlcd.hpr7,hpr7
 274428,11571,EFL_ILP_ScopingReview_CodedData_20250718.qdpx,qdpx
 274434,11573,Polish debates on higher education party manifestos.qdpx,qdpx
@@ -113,6 +115,7 @@ file_id,project_id,file_name,file_type
 274621,11602,MASTER AGGREGATED.nvpx,nvpx
 274622,11603,MASTER AGGREGATED.nvpx,nvpx
 274624,11604,pone.0249390.s009.nvpx,nvpx
+274627,11605,S4 FILE.atlproj,atlproj
 274641,11607,pgph.0001429.s002.mx22,mx22
 274642,11608,Tesis43.mx22,mx22
 274766,11645,Midstream and downstream behavioural patterns.nvp,nvp
@@ -125,7 +128,10 @@ file_id,project_id,file_name,file_type
 274865,11653,2018 plan.nvp,nvp
 274944,11705,Visual analysis of Kindchenschema - Nvivo 12.nvp,nvp
 274966,11713,Amazon Dataset.qdpx,qdpx
+274967,11713,Genetic Companies Dataset.atlproj,atlproj
+274968,11713,Amazon Dataset.atlproj,atlproj
 274969,11713,Genetic Companies Dataset.qdpx,qdpx
+274985,11722,JBE_SocialEntrepreneurship_network analysis (Adélie Ranville 2021-05-14).atlproj,atlproj
 275004,11730,Collectitude_CodeSystem_20211230.mtr,mtr
 275005,11731,voluntariado_exemplo_MAXQDA_V4.mx24,mx24
 275006,11732,SBOM data analysis_backup-20230125-232849.mx22,mx22
@@ -208,12 +214,20 @@ file_id,project_id,file_name,file_type
 298651,19893,Putin's Speeches January 15 2021 clean.nvpx,nvpx
 298655,19894,ANLibs_CodedTranscripts_20211204_v15.qdpx,qdpx
 299043,19910,Qualitative review _ maxqda file.mx22,mx22
+299047,19911,Dissertation final.atlproj,atlproj
+299057,19913,Impact standards 11 OCT 2019 Cleaned.atlproj,atlproj
+299175,19917,SG - CR NL Coded data Rijksoverheid.atlproj,atlproj
 299198,19919,Atlas.ti_codebook.qdc,qdc
 299321,19924,Masterthesis Sjim.nvpx,nvpx
+299551,19933,Miriam Audio Diaries.atlproj,atlproj
+299583,19935,Study3.AtlPac,atlpac
+299584,19936,Study 1.AtlPac,atlpac
+299585,19937,Study 2.AtlPac,atlpac
 299614,19945,Kennis & Gebruik 1 (Gabriel Taban 2025-04-25).qdpx,qdpx
 299615,19945,Kennis & Gebruik 2 (Gabriel Taban 2025-04-25).qdpx,qdpx
 299616,19945,Kennis & Gebruik 3 (Gabriel Taban 2025-04-25).qdpx,qdpx
 299811,19968,Transcripts - Anonymised.qdpx,qdpx
+300027,20011,s3 study_role_of_patient-2022-10-31T14-06.atlproj,atlproj
 300873,20058,Brand Activism and GenZ.qdpx,qdpx
 301925,20128,Road to Consumption_Qualitative Data.nvp,nvp
 302124,20144,Tina Sahakian_Evidence based management process_Processed data_REFI QDA.qdpx,qdpx
@@ -283,7 +297,9 @@ file_id,project_id,file_name,file_type
 305325,20347,NVivo file with new tweets added 11.19.24.nvp,nvp
 305326,20348,NVivo file paradox theory 12.26.22.nvp,nvp
 305328,20349,Factors accounting for the students' views and gender.nvpx,nvpx
+305390,20397,Longitudinaal fietsen met tegenwind 16-2.atlproj,atlproj
 305441,20399,COMUNICANCER_GRUPOS DISCUSIÓN.qdpx,qdpx
+305473,20403,PHD intercultural Bible reading forgiveness Export.atlproj,atlproj
 305490,20404,20160727PBdata.atlcd.hpr7,hpr7
 305545,20409,Deelonderzoek LVB.qdpx,qdpx
 305546,20409,Deelonderzoek ODM SH.qdpx,qdpx
@@ -297,6 +313,7 @@ file_id,project_id,file_name,file_type
 313749,20652,MAXQDA dataverse file - Evans.mx5,mx5
 314747,20772,Italian parties.nvpx,nvpx
 316004,20864,Coding Low-end Interviews_sortiert anonym.mx20,mx20
+316563,20924,interview_coding.atlproj,atlproj
 316564,20925,Study 1 MaxQDA.mx3,mx3
 316570,20931,MEPIT 2023 RESPALDO (Mobile46 2024-06-19).qdpx,qdpx
 316572,20932,Prosecution_Appeals_Briefs_V1.qdpx,qdpx
@@ -318,6 +335,9 @@ file_id,project_id,file_name,file_type
 317706,21027,coding interview data 访谈数据NVivo编码.nvpx,nvpx
 317728,21030,client coding master project (NVivo R1.6) Final.nvp,nvp
 351899,21662,Aesthetics and Information.nvpx,nvpx
+352003,21703,open_responses_Atlas_file.atlproj,atlproj
+352005,21704,BMS curriculum study.atlproj,atlproj
+352006,21705,Study strategies_AtlasFile_final.atlproj,atlproj
 354181,21745,analisis atlas.hpr7,hpr7
 354198,21746,IDDC_USI_KII.hpr7,hpr7
 354204,21747,"Atlas work AI illness, access and utilization 11 at noon.hpr7",hpr7
@@ -379,6 +399,12 @@ file_id,project_id,file_name,file_type
 363187,22155,05 Fletcher_20111111_video.MOD,mod
 363195,22156,06 Baltussen_20111111_video.MOD,mod
 366773,23994,C3NViVoYouthIn-DepthUncoded.nvp,nvp
+383710,24580,lc_gti_2009.qdp,qdp
+383713,24580,lc_global.qdp,qdp
+383718,24580,lc_gti_2012.qdp,qdp
+383720,24580,lc_gti_2011.qdp,qdp
+383723,24583,memecode-BAND-unificado.atlpac,atlpac
+383724,24584,memecode-SBT-22122015-daniel.atlpac,atlpac
 383884,24706,Maxqda categorisation.mx12,mx12
 383948,24767,pone.0216489.s002.mx12,mx12
 384041,24849,Thesis NVivo File Final.nvp,nvp
@@ -656,6 +682,7 @@ file_id,project_id,file_name,file_type
 401639,27310,1_PLANET4B_QDPXProject-BusinessModels_Pisa_20250919_Qualitative-Analysis-Project.qdpx,qdpx
 401679,27311,An_lisis_Primer_Instrumento.hpr7,hpr7
 401680,27311,An_lisis_Cuali_Segunda_Fase.hpr7,hpr7
+421968,39954,IoT Roadmap - Final Coding.qdp,qdp
 425070,41274,Steeves_FocusGroup_Codebook.qdc,qdc
 425073,41274,Steeves_Interview_Codebook.qdc,qdc
 427394,41442,Hegarty_QDA-Project_REFI-QDA-Exchange.qdpx,qdpx
@@ -666,6 +693,7 @@ file_id,project_id,file_name,file_type
 470754,47835,Procyon_B_M19_Y03_Z0245_a17_b00_end_agb.mod,.mod
 470756,47835,Procyon_B_M19_Y03_Z0245_a17_b00_end_core_h_burn.mod,.mod
 471393,48247,final.mod,.mod
+472369,48658,Speech_Representation_Project_Data_Annotated.rqda,.rqda
 472942,49082,Zins_(2007)_Classification_Systems_Comparison.mx20,.mx20
 473037,49167,5. QA-AT posts labelling and encoding.mx18,.mx18
 666332,82159,THastingsDataVerseFall2013.mx5,.mx5
