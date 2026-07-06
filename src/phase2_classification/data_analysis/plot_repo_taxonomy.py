@@ -9,27 +9,42 @@ from repository_labels import REPOSITORY_LABELS
 
 TOP_N_TABLE = 20
 
+PROJECT_TYPE_LABELS = {
+    "QDA_PROJECT": "QDA",
+    "QD_PROJECT": "QD",
+    "OTHER_PROJECT": "Other project",
+    "NOT_A_PROJECT": "No project",
+}
+PROJECT_TYPE_ORDER = ["QDA", "QD", "Other project", "No project"]
+
 
 def slugify(name):
     return re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
 
 
-def get_repo_class_counts(db_path):
+def get_repo_counts(db_path):
     conn = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
     try:
         cursor = conn.cursor()
-        cursor.execute("SELECT repository_id, primary_class FROM PROJECTS")
+        cursor.execute("SELECT repository_id, primary_class, type FROM PROJECTS")
         rows = cursor.fetchall()
     finally:
         conn.close()
 
-    per_repo = {}
-    for repository_id, primary_class in rows:
+    per_repo_classes = {}
+    per_repo_types = {}
+    for repository_id, primary_class, project_type in rows:
         repo_name = REPOSITORY_LABELS.get(repository_id, f"unknown ({repository_id})")
-        label = primary_class or "UNCLASSIFIED"
-        counts = per_repo.setdefault(repo_name, {})
-        counts[label] = counts.get(label, 0) + 1
-    return per_repo
+
+        class_label = primary_class or "UNCLASSIFIED"
+        class_counts = per_repo_classes.setdefault(repo_name, {})
+        class_counts[class_label] = class_counts.get(class_label, 0) + 1
+
+        type_label = PROJECT_TYPE_LABELS.get(project_type, "No project")
+        type_counts = per_repo_types.setdefault(repo_name, {})
+        type_counts[type_label] = type_counts.get(type_label, 0) + 1
+
+    return per_repo_classes, per_repo_types
 
 
 def write_table(counts, output_path, top_n=TOP_N_TABLE):
@@ -42,7 +57,7 @@ def write_table(counts, output_path, top_n=TOP_N_TABLE):
     return ranked
 
 
-def write_comments(repo_name, counts, ranked_top, output_path):
+def write_comments(repo_name, counts, ranked_top, type_counts, output_path):
     total = sum(counts.values())
     distinct = len(counts)
     unclassified = counts.get("UNCLASSIFIED", 0)
@@ -57,6 +72,14 @@ def write_comments(repo_name, counts, ranked_top, output_path):
     if unclassified:
         share = (unclassified / total * 100) if total else 0
         lines.append(f"- Unclassified projects (no primary_class): {unclassified} ({share:.1f}%)")
+
+    lines.append("")
+    lines.append("## Projects by type")
+    lines.append("")
+    for type_label in PROJECT_TYPE_ORDER:
+        count = type_counts.get(type_label, 0)
+        share = (count / total * 100) if total else 0
+        lines.append(f"- {type_label}: {count} ({share:.1f}%)")
 
     with open(output_path, "w") as f:
         f.write("\n".join(lines) + "\n")
@@ -73,10 +96,10 @@ def main():
     output_root = Path(args.output_dir)
     output_root.mkdir(parents=True, exist_ok=True)
 
-    per_repo = get_repo_class_counts(args.db)
+    per_repo_classes, per_repo_types = get_repo_counts(args.db)
 
-    for repo_name in sorted(per_repo):
-        counts = per_repo[repo_name]
+    for repo_name in sorted(per_repo_classes):
+        counts = per_repo_classes[repo_name]
         repo_dir = output_root / slugify(repo_name)
         repo_dir.mkdir(parents=True, exist_ok=True)
 
@@ -87,7 +110,7 @@ def main():
         ranked_top = write_table(counts, table_path)
 
         comments_path = repo_dir / "comments.md"
-        write_comments(repo_name, counts, ranked_top, comments_path)
+        write_comments(repo_name, counts, ranked_top, per_repo_types[repo_name], comments_path)
 
         print(f"{repo_name}: {sum(counts.values())} projects, {len(counts)} classes -> {repo_dir}")
 
