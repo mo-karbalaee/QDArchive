@@ -201,4 +201,3 @@ and enable shell-escape in your LaTeX build), and rank-ordered table.
 - [`docs/aggregation.md`](docs/aggregation.md) — merge/dedup design in full detail.
 - [`docs/filtering.md`](docs/filtering.md) — `PROJECT_TYPE` rule order and extension lists.
 - [`docs/classification.md`](docs/classification.md) — ISIC taxonomy method and tagging.
-- [`CLAUDE.md`](CLAUDE.md) — working agreements and open definitions for this project.
