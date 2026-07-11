@@ -24,6 +24,11 @@ REPO_SECTIONS = [
     ("AUSSDA", "aussda"),
 ]
 
+SCOPED_DISTRIBUTIONS = [
+    ("qda", "QDA_PROJECT"),
+    ("qd", "QD_PROJECT"),
+]
+
 INTRO = r"""\section{Classification Results}
 
 In this section, I present the results of the filtering and classification procedures applied to the aggregated database. The analysis is structured on a per-repository basis in order to provide a clear and systematic overview of the observed patterns. Each repository-specific subsection contains a set of standardized outputs designed to facilitate comparison across repositories and to support interpretation of the classification results.
@@ -94,11 +99,20 @@ def render_comments(comments_path):
     return "\n".join(lines)
 
 
-def render_subsection(title, slug, tables_root, res_dir):
-    comments_text = render_comments(Path(tables_root) / slug / "comments.md")
-    table_rows = read_table(Path(tables_root) / slug / "primary_class_table.csv")
+def build_figure_latex(res_dir, slug, stem, caption):
+    return "\n".join(
+        [
+            r"\begin{figure}[H]",
+            r"    \centering",
+            rf"    \includesvg[width=\textwidth]{{{res_dir}/{slug}/{stem}}}",
+            rf"    \caption{{{caption}}}",
+            r"\end{figure}",
+        ]
+    )
 
-    table_lines = [
+
+def build_table_latex(table_rows, caption):
+    lines = [
         r"\begin{table}[H]",
         r"    \centering",
         r"    \begin{tabular}{r p{10cm} r}",
@@ -107,30 +121,67 @@ def render_subsection(title, slug, tables_root, res_dir):
         r"    \hline",
     ]
     for rank, primary_class, count in table_rows:
-        table_lines.append(f"    {rank} & {escape_latex(primary_class)} & {count} \\\\")
-    table_lines += [
+        lines.append(f"    {rank} & {escape_latex(primary_class)} & {count} \\\\")
+    lines += [
         r"    \hline",
         r"    \end{tabular}",
-        rf"    \caption{{Top primary classes --- {escape_latex(title)}}}",
+        rf"    \caption{{{caption}}}",
         r"\end{table}",
     ]
+    return "\n".join(lines)
 
-    return "\n".join(
-        [
-            rf"\subsection{{{title}}}",
-            "",
-            comments_text,
-            "",
-            r"\begin{figure}[H]",
-            r"    \centering",
-            rf"    \includesvg[width=\textwidth]{{{res_dir}/{slug}/{slug}_primary_class_histogram}}",
-            rf"    \caption{{Primary class distribution --- {escape_latex(title)}}}",
-            r"\end{figure}",
-            "",
-            "\n".join(table_lines),
-            "",
-        ]
-    )
+
+def render_subsection(title, slug, tables_root, res_dir):
+    repo_dir = Path(tables_root) / slug
+    comments_text = render_comments(repo_dir / "comments.md")
+    table_rows = read_table(repo_dir / "primary_class_table.csv")
+
+    blocks = [
+        rf"\subsection{{{title}}}",
+        "",
+        comments_text,
+        "",
+        build_figure_latex(
+            res_dir, slug, f"{slug}_primary_class_histogram",
+            rf"Primary class distribution --- {escape_latex(title)}",
+        ),
+        "",
+        build_table_latex(table_rows, rf"Top primary classes --- {escape_latex(title)}"),
+        "",
+    ]
+
+    for suffix, type_label in SCOPED_DISTRIBUTIONS:
+        label = escape_latex(type_label)
+        histogram_path = repo_dir / f"{slug}_primary_class_histogram_{suffix}.svg"
+        table_path = repo_dir / f"primary_class_table_{suffix}.csv"
+
+        blocks.append(rf"\textbf{{{label} primary class distribution}}")
+        blocks.append("")
+
+        if not histogram_path.exists() and not table_path.exists():
+            blocks.append(rf"No {label} projects were classified in this repository.")
+            blocks.append("")
+            continue
+
+        if histogram_path.exists():
+            blocks.append(
+                build_figure_latex(
+                    res_dir, slug, f"{slug}_primary_class_histogram_{suffix}",
+                    rf"Primary class distribution ({label}) --- {escape_latex(title)}",
+                )
+            )
+            blocks.append("")
+
+        if table_path.exists():
+            blocks.append(
+                build_table_latex(
+                    read_table(table_path),
+                    rf"Top primary classes ({label}) --- {escape_latex(title)}",
+                )
+            )
+            blocks.append("")
+
+    return "\n".join(blocks)
 
 
 def main():

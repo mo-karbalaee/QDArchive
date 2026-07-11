@@ -17,6 +17,11 @@ PROJECT_TYPE_LABELS = {
 }
 PROJECT_TYPE_ORDER = ["QDA", "QD", "Other project", "No project"]
 
+SCOPED_DISTRIBUTIONS = [
+    ("qda", "QDA_PROJECT", "QDA"),
+    ("qd", "QD_PROJECT", "QD"),
+]
+
 
 def slugify(name):
     return re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
@@ -33,6 +38,7 @@ def get_repo_counts(db_path):
 
     per_repo_classes = {}
     per_repo_types = {}
+    per_repo_classes_by_type = {}
     for repository_id, primary_class, project_type in rows:
         repo_name = REPOSITORY_LABELS.get(repository_id, f"unknown ({repository_id})")
 
@@ -44,7 +50,11 @@ def get_repo_counts(db_path):
         type_counts = per_repo_types.setdefault(repo_name, {})
         type_counts[type_label] = type_counts.get(type_label, 0) + 1
 
-    return per_repo_classes, per_repo_types
+        scoped_classes = per_repo_classes_by_type.setdefault(repo_name, {})
+        class_counts_for_type = scoped_classes.setdefault(project_type, {})
+        class_counts_for_type[class_label] = class_counts_for_type.get(class_label, 0) + 1
+
+    return per_repo_classes, per_repo_types, per_repo_classes_by_type
 
 
 def write_table(counts, output_path, top_n=TOP_N_TABLE):
@@ -96,14 +106,15 @@ def main():
     output_root = Path(args.output_dir)
     output_root.mkdir(parents=True, exist_ok=True)
 
-    per_repo_classes, per_repo_types = get_repo_counts(args.db)
+    per_repo_classes, per_repo_types, per_repo_classes_by_type = get_repo_counts(args.db)
 
     for repo_name in sorted(per_repo_classes):
         counts = per_repo_classes[repo_name]
-        repo_dir = output_root / slugify(repo_name)
+        slug = slugify(repo_name)
+        repo_dir = output_root / slug
         repo_dir.mkdir(parents=True, exist_ok=True)
 
-        histogram_path = repo_dir / f"{slugify(repo_name)}_primary_class_histogram.svg"
+        histogram_path = repo_dir / f"{slug}_primary_class_histogram.svg"
         plot_bar_with_counts(counts, f"Primary classes - {repo_name}", "Number of projects", histogram_path)
 
         table_path = repo_dir / "primary_class_table.csv"
@@ -111,6 +122,21 @@ def main():
 
         comments_path = repo_dir / "comments.md"
         write_comments(repo_name, counts, ranked_top, per_repo_types[repo_name], comments_path)
+
+        scoped_classes = per_repo_classes_by_type.get(repo_name, {})
+        for suffix, project_type, human_label in SCOPED_DISTRIBUTIONS:
+            scoped_counts = scoped_classes.get(project_type, {})
+            if not scoped_counts:
+                continue
+            scoped_histogram_path = repo_dir / f"{slug}_primary_class_histogram_{suffix}.svg"
+            plot_bar_with_counts(
+                scoped_counts,
+                f"Primary classes ({human_label}) - {repo_name}",
+                "Number of projects",
+                scoped_histogram_path,
+            )
+            scoped_table_path = repo_dir / f"primary_class_table_{suffix}.csv"
+            write_table(scoped_counts, scoped_table_path)
 
         print(f"{repo_name}: {sum(counts.values())} projects, {len(counts)} classes -> {repo_dir}")
 
