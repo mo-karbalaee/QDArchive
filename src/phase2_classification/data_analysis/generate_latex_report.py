@@ -78,7 +78,9 @@ def render_comments(comments_path):
             if in_itemize:
                 lines.append(r"\end{itemize}")
                 in_itemize = False
+            lines.append("")
             lines.append(rf"\textbf{{{escape_latex(stripped[3:])}}}")
+            lines.append("")
             continue
         if stripped.startswith("- "):
             if not in_itemize:
@@ -91,7 +93,9 @@ def render_comments(comments_path):
         if in_itemize:
             lines.append(r"\end{itemize}")
             in_itemize = False
+        lines.append("")
         lines.append(escape_latex(stripped))
+        lines.append("")
 
     if in_itemize:
         lines.append(r"\end{itemize}")

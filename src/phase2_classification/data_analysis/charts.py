@@ -6,6 +6,7 @@ SURFACE_COLOR = "#fcfcfb"
 PRIMARY_INK = "#0b0b0b"
 MUTED_INK = "#898781"
 GRIDLINE_COLOR = "#e1e0d9"
+OTHER_SLICE_COLOR = "#bdbbb2"
 TOP_N_SLICES = 7
 
 
@@ -51,7 +52,14 @@ def plot_distribution_pie(counts, title, output_path, top_n=7, donut=False):
     slices = [pair for pair in fold_into_other(counts, top_n=top_n) if pair[1] > 0]
     labels = [_shorten(label) for label, _ in slices]
     values = [count for _, count in slices]
-    colors = CATEGORICAL_COLORS[: len(slices)]
+    colors = []
+    categorical_index = 0
+    for label, _ in slices:
+        if label == "Other":
+            colors.append(OTHER_SLICE_COLOR)
+        else:
+            colors.append(CATEGORICAL_COLORS[categorical_index])
+            categorical_index += 1
 
     background = "#ffffff"
     fig, ax = plt.subplots(figsize=(6, 6), facecolor=background)
