@@ -41,6 +41,48 @@ def plot_pie(counts, title, output_path, top_n=TOP_N_SLICES):
     plt.close(fig)
 
 
+def _shorten(label, limit=34):
+    if len(label) <= limit:
+        return label
+    return label[: limit - 1].rstrip() + "…"
+
+
+def plot_distribution_pie(counts, title, output_path, top_n=7, donut=False):
+    slices = [pair for pair in fold_into_other(counts, top_n=top_n) if pair[1] > 0]
+    labels = [_shorten(label) for label, _ in slices]
+    values = [count for _, count in slices]
+    colors = CATEGORICAL_COLORS[: len(slices)]
+
+    background = "#ffffff"
+    fig, ax = plt.subplots(figsize=(6, 6), facecolor=background)
+    ax.set_facecolor(background)
+    wedge_kw = {"linewidth": 2, "edgecolor": background}
+    if donut:
+        wedge_kw["width"] = 0.42
+    wedges, _, _ = ax.pie(
+        values,
+        colors=colors,
+        autopct="%1.1f%%",
+        pctdistance=0.82,
+        startangle=90,
+        textprops={"color": PRIMARY_INK, "fontsize": 9},
+        wedgeprops=wedge_kw,
+    )
+    ax.set_title(title, color=PRIMARY_INK)
+    ax.legend(
+        wedges,
+        labels,
+        loc="upper center",
+        bbox_to_anchor=(0.5, -0.02),
+        frameon=False,
+        fontsize=8,
+        labelcolor=PRIMARY_INK,
+    )
+    ax.axis("equal")
+    fig.savefig(output_path, format="svg", facecolor=background, bbox_inches="tight")
+    plt.close(fig)
+
+
 def plot_bar(counts, title, xlabel, output_path):
     ranked = sorted(counts.items(), key=lambda pair: pair[1])
     labels = [label for label, _ in ranked]

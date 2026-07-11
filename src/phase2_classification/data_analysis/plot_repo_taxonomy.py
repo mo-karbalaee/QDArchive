@@ -4,7 +4,7 @@ import re
 import sqlite3
 from pathlib import Path
 
-from charts import plot_bar_with_counts
+from charts import plot_bar_with_counts, plot_distribution_pie
 from repository_labels import REPOSITORY_LABELS
 
 TOP_N_TABLE = 20
@@ -67,12 +67,38 @@ def write_table(counts, output_path, top_n=TOP_N_TABLE):
     return ranked
 
 
+def build_narrative(repo_name, total, distinct, ranked_top, type_counts):
+    def pct(n):
+        return (n / total * 100) if total else 0
+
+    sentences = [
+        f"The {repo_name} repository contributes {total} projects to the aggregated dataset."
+    ]
+    sentences.append(
+        f"Of these, {pct(type_counts.get('QD', 0)):.1f}% were identified as QD projects and "
+        f"{pct(type_counts.get('QDA', 0)):.1f}% as QDA projects, with "
+        f"{pct(type_counts.get('Other project', 0)):.1f}% classified as other data and "
+        f"{pct(type_counts.get('No project', 0)):.1f}% as non-project entries."
+    )
+    if ranked_top:
+        top_label, top_count = ranked_top[0]
+        sentences.append(
+            f"Across {distinct} distinct ISIC divisions, the most frequent primary class is "
+            f"{top_label}, accounting for {pct(top_count):.1f}% of the repository's projects."
+        )
+    return " ".join(sentences)
+
+
 def write_comments(repo_name, counts, ranked_top, type_counts, output_path):
     total = sum(counts.values())
     distinct = len(counts)
     unclassified = counts.get("UNCLASSIFIED", 0)
 
     lines = [f"# Findings: {repo_name}", ""]
+    lines.append(build_narrative(repo_name, total, distinct, ranked_top, type_counts))
+    lines.append("")
+    lines.append("## Key facts")
+    lines.append("")
     lines.append(f"- Total projects: {total}")
     lines.append(f"- Distinct primary classes observed: {distinct}")
     if ranked_top:
@@ -120,8 +146,17 @@ def main():
         table_path = repo_dir / "primary_class_table.csv"
         ranked_top = write_table(counts, table_path)
 
+        type_counts = per_repo_types[repo_name]
+
+        class_pie_path = repo_dir / f"{slug}_primary_class_pie.svg"
+        plot_distribution_pie(counts, f"Primary classes - {repo_name}", class_pie_path, top_n=7)
+
+        type_pie_counts = {label: type_counts.get(label, 0) for label in PROJECT_TYPE_ORDER}
+        type_pie_path = repo_dir / f"{slug}_project_type_pie.svg"
+        plot_distribution_pie(type_pie_counts, f"Project types - {repo_name}", type_pie_path, top_n=7, donut=True)
+
         comments_path = repo_dir / "comments.md"
-        write_comments(repo_name, counts, ranked_top, per_repo_types[repo_name], comments_path)
+        write_comments(repo_name, counts, ranked_top, type_counts, comments_path)
 
         scoped_classes = per_repo_classes_by_type.get(repo_name, {})
         for suffix, project_type, human_label in SCOPED_DISTRIBUTIONS:

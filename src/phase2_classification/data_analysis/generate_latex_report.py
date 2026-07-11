@@ -131,6 +131,28 @@ def build_table_latex(table_rows, caption):
     return "\n".join(lines)
 
 
+def build_overview_figure(title, slug, res_dir):
+    return "\n".join(
+        [
+            r"\begin{figure}[H]",
+            r"    \centering",
+            r"    \begin{subfigure}[t]{0.49\textwidth}",
+            r"        \centering",
+            rf"        \includesvg[width=\textwidth]{{{res_dir}/{slug}/{slug}_primary_class_pie}}",
+            r"        \caption{Primary class distribution (all projects)}",
+            r"    \end{subfigure}",
+            r"    \hfill",
+            r"    \begin{subfigure}[t]{0.49\textwidth}",
+            r"        \centering",
+            rf"        \includesvg[width=\textwidth]{{{res_dir}/{slug}/{slug}_project_type_pie}}",
+            r"        \caption{Project type distribution}",
+            r"    \end{subfigure}",
+            rf"    \caption{{Repository overview --- {escape_latex(title)}}}",
+            r"\end{figure}",
+        ]
+    )
+
+
 def build_histograms_figure(title, slug, res_dir, repo_dir):
     lines = [
         r"\begin{figure}[H]",
@@ -159,9 +181,13 @@ def render_subsection(title, slug, tables_root, res_dir):
     comments_text = render_comments(repo_dir / "comments.md")
 
     blocks = [
+        r"\clearpage",
+        "",
         rf"\subsection{{{title}}}",
         "",
         comments_text,
+        "",
+        build_overview_figure(title, slug, res_dir),
         "",
         r"\clearpage",
         "",
