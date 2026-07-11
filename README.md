@@ -1,20 +1,23 @@
 # QDArchive
 
 A pipeline for building a large, deduplicated archive of qualitative and mixed-methods
-research projects — acquired from public data repositories, merged from 39 independently
+research projects — acquired from public data repositories, merged from 40 independently
 built student databases, and classified by project type and subject-matter taxonomy.
 
-```text
-Phase 1 — Acquisition        Phase 2 — Classification
-┌──────────────────┐         ┌──────────────┐   ┌──────────────────┐   ┌───────────────────┐
-│ Harvard Dataverse │        │  Aggregation  │   │ Project-type     │   │ Taxonomy           │
-│ IHSN              │  ───▶  │  (dedupe 39   │──▶│ filtering        │──▶│ classification      │
-│ + 20 more sources │        │   databases)  │   │ (QDA/QD/Other/-) │   │ (ISIC Rev.5 + tags) │
-└──────────────────┘         └──────────────┘   └──────────────────┘   └───────────────────┘
-                                                                                  │
-                                                                                  ▼
-                                                                     Per-repository reports
-                                                                     (histograms, tables, LaTeX)
+```mermaid
+flowchart LR
+    S["20+ public repositories<br/>(Zenodo, Dryad, Harvard Dataverse,<br/>DANS, ICPSR, CESSDA, ...)"]
+
+    subgraph P2["Phase 2 — Classification"]
+        direction LR
+        A["1. Aggregation and dedup<br/>40 databases to 89,658 projects"]
+        T["2. Project-type filtering<br/>QDA / QD / Other / Not-a-project"]
+        X["3. Taxonomy classification<br/>ISIC Rev. 5 division + tags<br/>projects and primary data files"]
+        R["Reporting<br/>overview pies, histograms, tables<br/>XLSX table, LaTeX section"]
+    end
+
+    S -->|Phase 1 acquisition| A
+    A --> T --> X --> R
 ```
 
 ---
@@ -39,27 +42,29 @@ Phase 1 — Acquisition        Phase 2 — Classification
 
 Over 20 public data repositories (Zenodo, Dryad, Harvard Dataverse, DANS, UK Data Service,
 CESSDA, ICPSR, and more) were scraped for research projects, each independently by a
-different student as a class assignment — producing 39 separate SQLite databases with
+different student as a class assignment — producing 40 separate SQLite databases with
 overlapping content and inconsistent schemas.
 
 QDArchive turns that into one coherent archive by:
 
-1. **Aggregating** all 39 databases into a single deduplicated database with a canonical
-   schema.
+1. **Aggregating** all 40 databases into a single deduplicated database (89,658 projects)
+   with a canonical schema.
 2. **Classifying** every project's `PROJECT_TYPE` — whether it contains actual
    qualitative-analysis (CAQDAS) project files, raw qualitative data, other recognizable
    data, or nothing usable at all.
 3. **Classifying** every project against the **ISIC Rev. 5** industry taxonomy (Section →
    Division) plus freeform search tags, using local sentence-embedding similarity — no
-   external API calls.
-4. **Reporting** the results per source repository: SVG histograms, ranked class tables,
-   auto-generated findings, and a populated LaTeX section ready to drop into a paper.
+   external API calls. For QDA and QD projects, **each primary data file** is classified as
+   well.
+4. **Reporting** the results per source repository: overview pie charts, primary-class
+   histograms (all / QDA / QD), ranked class tables, a file-level distribution, an XLSX
+   summary table, and a populated LaTeX section ready to drop into a paper.
 
 ## Repository layout
 
 ```text
 QDArchive/
-├── databases/                        39 source SQLite databases (Phase 1 output, one per student)
+├── databases/                        39 other students' source SQLite databases (Phase 1 output)
 ├── docs/                             Design notes for each pipeline stage
 │   ├── aggregation.md
 │   ├── classification.md             (taxonomy classification)
@@ -104,11 +109,11 @@ for the full list of the 39 source databases this produced and where each one ca
 Code: `src/phase2_classification/aggregation/` · Run: `bash scripts/aggregate.sh` ·
 Docs: [`docs/aggregation.md`](docs/aggregation.md)
 
-Merges all 39 databases in `databases/` into one, resolving each source's table/column
-names against a canonical schema and deduplicating projects via a fallback key chain
-(`project_url` → `doi` → `title + repository_id`). Child records (files, keywords,
-licenses, person roles) are unioned and deduplicated per merged project, not just
-concatenated.
+Merges all 40 student databases (the 39 in `databases/` plus this student's own) into one,
+resolving each source's table/column names against a canonical schema and deduplicating
+projects via a fallback key chain (`project_url` → `doi` → `title + repository_id`). Child
+records (files, keywords, licenses, person roles) are unioned and deduplicated per merged
+project, not just concatenated. The result is 89,658 unique projects.
 
 ### Step 2: Project-type filtering
 
@@ -140,6 +145,15 @@ title + description + keywords + file names are embedded and compared by cosine
 similarity. The top-1 match becomes `primary_class`, the top-2 becomes `secondary_class`,
 and `KeyBERT` (reusing the same embedding model) extracts the top 5 tags.
 
+The script also classifies **each primary data file** in QDA and QD projects, writing
+`primary_class`/`secondary_class` onto the `FILES` table. A file is classified from its
+file name, falling back to its parent project's class when the name is uninformative. Use
+`--scope` to control which pass runs (`projects`, `files`, or `all`; default `all`):
+
+```shell
+uv run src/phase2_classification/taxonomy/classify_taxonomy.py --scope files
+```
+
 ### Reporting & visualization
 
 Code: `src/phase2_classification/data_analysis/`
@@ -153,12 +167,26 @@ bash scripts/plot_repo_taxonomy.sh
 For every source repository, this writes to
 `src/phase2_classification/data_analysis/output/by_repository/<repo>/`:
 
-- **`primary_class_histogram.svg`** — vector-graphics histogram of every primary class
-  observed, full ISIC division name as the bin label, count annotated above each bar.
-- **`primary_class_table.csv`** — the top 20 classes, ranked by frequency.
-- **`comments.md`** — auto-generated findings: total projects, class diversity, the
-  dominant class and its share, and a `QDA` / `QD` / `Other project` / `No project`
-  breakdown.
+- **`primary_class_pie.svg`** / **`project_type_pie.svg`** — overview charts: the
+  primary-class distribution (top 7 + Other) and the project-type composition (donut).
+- **`primary_class_histogram.svg`** (+ `_qda`, `_qd`) — horizontal, white-background
+  histograms of the top-20 primary classes, full ISIC division name as the label and the
+  count annotated on each bar; one for all projects and one each restricted to QDA and QD
+  project types.
+- **`primary_class_table.csv`** (+ `_qda`, `_qd`) — the top 20 classes, ranked by frequency.
+- **`file_primary_class_histogram.svg`** / **`file_primary_class_table.csv`** — the
+  file-level distribution across primary data files (top-10 table).
+- **`comments.md`** — auto-generated findings: a narrative summary, key facts (total
+  projects, class diversity, dominant class), and the `QDA` / `QD` / `Other project` /
+  `No project` breakdown.
+
+A flat per-project summary table (the required XLSX deliverable columns —
+`repository_id`, `project_type`, `project_title`, `primary_class`, `secondary_class`,
+`no_project_files`) is produced by:
+
+```shell
+bash scripts/export_projects_summary.sh
+```
 
 There are also whole-archive (not per-repository) views:
 
@@ -174,9 +202,18 @@ Finally, turn the per-repository outputs into a ready-to-include LaTeX section:
 uv run src/phase2_classification/data_analysis/generate_latex_report.py
 ```
 
-This populates `classification_results.tex` — one `\subsection` per repository, each with
-its findings, histogram (via `\includesvg`, so add `\usepackage[inkscapelatex=false]{svg}`
-and enable shell-escape in your LaTeX build), and rank-ordered table.
+This populates `classification_results.tex` — one `\subsection` per repository, laid out as
+an overview page (narrative, key facts, and the two pie charts), a page of primary-class
+histograms (all / QDA / QD), the ranked tables, and a file-level page (histogram + top-10
+table). Figures are included via `\includesvg`, so the consuming document needs
+`\usepackage[inkscapelatex=false]{svg}` and shell-escape enabled.
+
+To publish the SVGs and the regenerated section straight into a separate LaTeX report
+project (defaults to `../QDArchive-report`):
+
+```shell
+bash scripts/sync_report.sh [path/to/report]
+```
 
 ## Scripts reference
 
@@ -188,11 +225,13 @@ and enable shell-escape in your LaTeX build), and rank-ordered table.
 | `scripts/fix_repository_ids.sh` | Phase 2 · Step 1 | Correct unknown/mislabeled repository IDs |
 | `scripts/classify.sh` | Phase 2 · Step 2 | Assign `PROJECT_TYPE` per project |
 | `scripts/list_qda_files.sh` | Phase 2 · Step 2 | List every file matched as a QDA file |
-| `scripts/classify_taxonomy.sh` | Phase 2 · Step 3 | Assign ISIC classes + tags per project |
+| `scripts/classify_taxonomy.sh` | Phase 2 · Step 3 | Assign ISIC classes + tags per project (and per primary data file) |
 | `scripts/plot_repositories.sh` | Reporting | Projects per source repository |
 | `scripts/plot_project_types.sh` | Reporting | Projects per `PROJECT_TYPE` |
 | `scripts/plot_taxonomy_classes.sh` | Reporting | Projects per primary/secondary ISIC class |
-| `scripts/plot_repo_taxonomy.sh` | Reporting | Per-repository histograms, tables, findings |
+| `scripts/plot_repo_taxonomy.sh` | Reporting | Per-repository pies, histograms, tables, findings |
+| `scripts/export_projects_summary.sh` | Reporting | Flat per-project summary table (XLSX columns) |
+| `scripts/sync_report.sh` | Reporting | Push SVGs + generated section into the LaTeX report project |
 
 ## Further reading
 
