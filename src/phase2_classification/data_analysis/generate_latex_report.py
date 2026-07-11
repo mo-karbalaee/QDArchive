@@ -131,55 +131,63 @@ def build_table_latex(table_rows, caption):
     return "\n".join(lines)
 
 
+def build_histograms_figure(title, slug, res_dir, repo_dir):
+    lines = [
+        r"\begin{figure}[H]",
+        r"    \centering",
+        rf"    \includesvg[width=\textwidth]{{{res_dir}/{slug}/{slug}_primary_class_histogram}}",
+    ]
+    for suffix, type_label in SCOPED_DISTRIBUTIONS:
+        label = escape_latex(type_label)
+        histogram_path = repo_dir / f"{slug}_primary_class_histogram_{suffix}.svg"
+        lines.append(r"    \par\vspace{0.8em}")
+        if histogram_path.exists():
+            lines.append(
+                rf"    \includesvg[width=\textwidth]{{{res_dir}/{slug}/{slug}_primary_class_histogram_{suffix}}}"
+            )
+        else:
+            lines.append(rf"    No {label} projects were classified in this repository.")
+    lines.append(
+        rf"    \caption{{Primary class distributions (all, QDA, QD) --- {escape_latex(title)}}}"
+    )
+    lines.append(r"\end{figure}")
+    return "\n".join(lines)
+
+
 def render_subsection(title, slug, tables_root, res_dir):
     repo_dir = Path(tables_root) / slug
     comments_text = render_comments(repo_dir / "comments.md")
-    table_rows = read_table(repo_dir / "primary_class_table.csv")
 
     blocks = [
         rf"\subsection{{{title}}}",
         "",
         comments_text,
         "",
-        build_figure_latex(
-            res_dir, slug, f"{slug}_primary_class_histogram",
-            rf"Primary class distribution --- {escape_latex(title)}",
-        ),
+        r"\clearpage",
         "",
-        build_table_latex(table_rows, rf"Top primary classes --- {escape_latex(title)}"),
+        build_histograms_figure(title, slug, res_dir, repo_dir),
+        "",
+        r"\clearpage",
+        "",
+        build_table_latex(
+            read_table(repo_dir / "primary_class_table.csv"),
+            rf"Top primary classes --- {escape_latex(title)}",
+        ),
         "",
     ]
 
     for suffix, type_label in SCOPED_DISTRIBUTIONS:
         label = escape_latex(type_label)
-        histogram_path = repo_dir / f"{slug}_primary_class_histogram_{suffix}.svg"
         table_path = repo_dir / f"primary_class_table_{suffix}.csv"
-
-        blocks.append(rf"\textbf{{{label} primary class distribution}}")
-        blocks.append("")
-
-        if not histogram_path.exists() and not table_path.exists():
-            blocks.append(rf"No {label} projects were classified in this repository.")
-            blocks.append("")
+        if not table_path.exists():
             continue
-
-        if histogram_path.exists():
-            blocks.append(
-                build_figure_latex(
-                    res_dir, slug, f"{slug}_primary_class_histogram_{suffix}",
-                    rf"Primary class distribution ({label}) --- {escape_latex(title)}",
-                )
+        blocks.append(
+            build_table_latex(
+                read_table(table_path),
+                rf"Top primary classes ({label}) --- {escape_latex(title)}",
             )
-            blocks.append("")
-
-        if table_path.exists():
-            blocks.append(
-                build_table_latex(
-                    read_table(table_path),
-                    rf"Top primary classes ({label}) --- {escape_latex(title)}",
-                )
-            )
-            blocks.append("")
+        )
+        blocks.append("")
 
     return "\n".join(blocks)
 
