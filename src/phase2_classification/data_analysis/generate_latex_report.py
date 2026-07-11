@@ -219,6 +219,28 @@ def render_subsection(title, slug, tables_root, res_dir):
         )
         blocks.append("")
 
+    file_histogram = repo_dir / f"{slug}_file_primary_class_histogram.svg"
+    file_table = repo_dir / "file_primary_class_table.csv"
+    if file_histogram.exists() or file_table.exists():
+        blocks.append(r"\clearpage")
+        blocks.append("")
+        if file_histogram.exists():
+            blocks.append(
+                build_figure_latex(
+                    res_dir, slug, f"{slug}_file_primary_class_histogram",
+                    rf"Primary class distribution across primary data files --- {escape_latex(title)}",
+                )
+            )
+            blocks.append("")
+        if file_table.exists():
+            blocks.append(
+                build_table_latex(
+                    read_table(file_table),
+                    rf"Top primary classes, primary data files --- {escape_latex(title)}",
+                )
+            )
+            blocks.append("")
+
     return "\n".join(blocks)
 
 

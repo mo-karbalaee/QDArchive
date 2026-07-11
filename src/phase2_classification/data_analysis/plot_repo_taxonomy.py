@@ -57,6 +57,29 @@ def get_repo_counts(db_path):
     return per_repo_classes, per_repo_types, per_repo_classes_by_type
 
 
+def get_repo_file_counts(db_path):
+    conn = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
+    try:
+        cursor = conn.cursor()
+        cursor.execute(
+            """
+            SELECT p.repository_id, f.primary_class
+            FROM FILES f JOIN PROJECTS p ON f.project_id = p.id
+            WHERE f.primary_class IS NOT NULL
+            """
+        )
+        rows = cursor.fetchall()
+    finally:
+        conn.close()
+
+    per_repo_file_classes = {}
+    for repository_id, primary_class in rows:
+        repo_name = REPOSITORY_LABELS.get(repository_id, f"unknown ({repository_id})")
+        class_counts = per_repo_file_classes.setdefault(repo_name, {})
+        class_counts[primary_class] = class_counts.get(primary_class, 0) + 1
+    return per_repo_file_classes
+
+
 def write_table(counts, output_path, top_n=TOP_N_TABLE):
     ranked = sorted(counts.items(), key=lambda pair: pair[1], reverse=True)[:top_n]
     with open(output_path, "w", newline="") as f:
@@ -133,6 +156,7 @@ def main():
     output_root.mkdir(parents=True, exist_ok=True)
 
     per_repo_classes, per_repo_types, per_repo_classes_by_type = get_repo_counts(args.db)
+    per_repo_file_classes = get_repo_file_counts(args.db)
 
     for repo_name in sorted(per_repo_classes):
         counts = per_repo_classes[repo_name]
@@ -172,6 +196,18 @@ def main():
             )
             scoped_table_path = repo_dir / f"primary_class_table_{suffix}.csv"
             write_table(scoped_counts, scoped_table_path)
+
+        file_counts = per_repo_file_classes.get(repo_name, {})
+        if file_counts:
+            file_histogram_path = repo_dir / f"{slug}_file_primary_class_histogram.svg"
+            plot_bar_with_counts(
+                file_counts,
+                f"Primary classes, primary data files - {repo_name}",
+                "Number of files",
+                file_histogram_path,
+            )
+            file_table_path = repo_dir / "file_primary_class_table.csv"
+            write_table(file_counts, file_table_path)
 
         print(f"{repo_name}: {sum(counts.values())} projects, {len(counts)} classes -> {repo_dir}")
 
