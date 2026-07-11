@@ -207,7 +207,7 @@ def main():
                 file_histogram_path,
             )
             file_table_path = repo_dir / "file_primary_class_table.csv"
-            write_table(file_counts, file_table_path)
+            write_table(file_counts, file_table_path, top_n=10)
 
         print(f"{repo_name}: {sum(counts.values())} projects, {len(counts)} classes -> {repo_dir}")
 

@@ -31,16 +31,23 @@ SCOPED_DISTRIBUTIONS = [
 
 INTRO = r"""\section{Classification Results}
 
-In this section, I present the results of the filtering and classification procedures applied to the aggregated database. The analysis is structured on a per-repository basis in order to provide a clear and systematic overview of the observed patterns. Each repository-specific subsection contains a set of standardized outputs designed to facilitate comparison across repositories and to support interpretation of the classification results.
+In this section, I present the results of the classification procedures applied to the aggregated database. Every project was first assigned a project type --- \texttt{QDA\_PROJECT}, \texttt{QD\_PROJECT}, \texttt{OTHER\_PROJECT}, or \texttt{NOT\_A\_PROJECT} --- derived from the file extensions present in the project. Projects were then classified against the ISIC Rev.~5 taxonomy at the division level (two levels deep, i.e.\ section and then division) using their title, description, keywords, and file names. This yields a primary and, where applicable, a secondary division for each project, together with a set of free-form tags that support search and discovery.
 
-More specifically, each subsection includes the following components:
+The analysis is organised on a per-repository basis so that patterns can be compared across sources and interpreted in the context of each repository's size and composition. In line with the classification requirements, the primary-class distributions are reported both for all projects in a repository and, separately, restricted to the \texttt{QDA\_PROJECT} and \texttt{QD\_PROJECT} types, as these are the project types of primary interest.
+
+Each repository subsection is organised as follows:
 
 \begin{enumerate}
+    \item \textbf{Overview.} A short narrative summary of the repository, followed by its key facts (total number of projects, the number of distinct primary classes observed, and the dominant class) and its composition by project type. Two charts accompany this summary: a pie chart of the primary-class distribution across all projects, and a donut chart of the project-type composition.
 
-    \item A histogram showing the distribution of primary classes detected in the repository. This allows for a detailed examination of the most prevalent classification outcomes and highlights dominant patterns in the data.
+    \item \textbf{Primary-class histograms.} Histograms of the primary classes detected in the repository, shown for all projects and, separately, for the QDA and QD project types. Each bar is annotated with its count, the full ISIC division name is used as the label, and the graphics are rendered as vector images so that they remain legible when magnified.
 
-    \item A rank-ordered table listing the identified classes according to their frequency. This table provides a compact summary of class prevalence and supports direct comparison between classes in terms of their occurrence.
+    \item \textbf{Rank-ordered class tables.} For the same three groupings (all projects, QDA projects, and QD projects), a table listing the twenty most frequent primary classes together with their counts.
+
+    \item \textbf{File-level classification.} For the QDA and QD projects, each primary data file --- documents and audio or video material such as PDF, DOCX, TXT, RTF, and common media formats --- was additionally classified against the same taxonomy. Each file is classified from its file name, falling back to the classification of its parent project when the file name is uninformative. These results are reported as a histogram of the primary classes assigned to the repository's primary data files, accompanied by a ranked table of the ten most frequent classes on the same page.
 \end{enumerate}
+
+Unless stated otherwise, all percentages are computed within the grouping to which they refer.
 """
 
 LATEX_SPECIAL_CHARS = {
